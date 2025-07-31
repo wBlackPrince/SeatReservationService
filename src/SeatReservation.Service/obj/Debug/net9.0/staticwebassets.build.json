@@ -1,0 +1,12 @@
+{
+  "Version": 1,
+  "Hash": "8qn4ULy5w2fcNCNYJnahZ0XL1KmhHW5qnQ+vAsfh27U=",
+  "Source": "SeatReservation.Service",
+  "BasePath": "_content/SeatReservation.Service",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": [],
+  "Endpoints": []
+}

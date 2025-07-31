@@ -1,8 +1,22 @@
+using SeatReservationDomain.Venue;
+
 namespace SeatReservationDomain.Reservation;
+
+
+public record ReservationSeatId(Guid Value);
 
 public class ReservationSeat
 {
-    public ReservationSeat(Guid id, Reservation reservation, Guid seatId, DateTime reservationDate)
+    // Ef Core
+    private ReservationSeat()
+    {
+    }
+    
+    public ReservationSeat(
+        ReservationSeatId id, 
+        Reservation reservation, 
+        SeatId seatId, 
+        DateTime reservationDate)
     {
         Id = id;
         Reservation = reservation;
@@ -11,9 +25,9 @@ public class ReservationSeat
     }
     
     
-    public Guid Id { get; private set; }
+    public ReservationSeatId Id { get; private set; }
     public Reservation Reservation { get; private set; }
-    public Guid SeatId { get; private set; }
+    public SeatId SeatId { get; private set; }
     
     public DateTime ReservationAt { get; private set; }
 }

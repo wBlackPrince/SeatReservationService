@@ -1,0 +1,16 @@
+D:\asp_apps\SeatReservationService\src\SeatReservation.Domain\bin\Debug\net9.0\SeatReservation.Domain.deps.json
+D:\asp_apps\SeatReservationService\src\SeatReservation.Domain\bin\Debug\net9.0\SeatReservation.Domain.dll
+D:\asp_apps\SeatReservationService\src\SeatReservation.Domain\bin\Debug\net9.0\SeatReservation.Domain.pdb
+D:\asp_apps\SeatReservationService\src\SeatReservation.Domain\bin\Debug\net9.0\SeatReservation.Shared.dll
+D:\asp_apps\SeatReservationService\src\SeatReservation.Domain\bin\Debug\net9.0\SeatReservation.Shared.pdb
+D:\asp_apps\SeatReservationService\src\SeatReservation.Domain\obj\Debug\net9.0\SeatReservation.Domain.csproj.AssemblyReference.cache
+D:\asp_apps\SeatReservationService\src\SeatReservation.Domain\obj\Debug\net9.0\SeatReservation.Domain.GeneratedMSBuildEditorConfig.editorconfig
+D:\asp_apps\SeatReservationService\src\SeatReservation.Domain\obj\Debug\net9.0\SeatReservation.Domain.AssemblyInfoInputs.cache
+D:\asp_apps\SeatReservationService\src\SeatReservation.Domain\obj\Debug\net9.0\SeatReservation.Domain.AssemblyInfo.cs
+D:\asp_apps\SeatReservationService\src\SeatReservation.Domain\obj\Debug\net9.0\SeatReservation.Domain.csproj.CoreCompileInputs.cache
+D:\asp_apps\SeatReservationService\src\SeatReservation.Domain\obj\Debug\net9.0\SeatReservation.Domain.sourcelink.json
+D:\asp_apps\SeatReservationService\src\SeatReservation.Domain\obj\Debug\net9.0\SeatRese.D31C51C9.Up2Date
+D:\asp_apps\SeatReservationService\src\SeatReservation.Domain\obj\Debug\net9.0\SeatReservation.Domain.dll
+D:\asp_apps\SeatReservationService\src\SeatReservation.Domain\obj\Debug\net9.0\refint\SeatReservation.Domain.dll
+D:\asp_apps\SeatReservationService\src\SeatReservation.Domain\obj\Debug\net9.0\SeatReservation.Domain.pdb
+D:\asp_apps\SeatReservationService\src\SeatReservation.Domain\obj\Debug\net9.0\ref\SeatReservation.Domain.dll

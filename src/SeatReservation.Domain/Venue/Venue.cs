@@ -3,12 +3,20 @@ using SeatReservation.Shared;
 
 namespace SeatReservationDomain.Venue;
 
+public record VenueId(Guid Value);
+
 public class Venue
 {
-    private List<Seat> _seats;
+    private List<Seat> _seats = [];
     private List<Guid> _events;
+
+    // Ef core
+    private Venue()
+    {
+        
+    }
     
-    public Venue(Guid id, string name, int maxSeatsCount, IEnumerable<Seat> seats)
+    public Venue(VenueId id, VenueName name,  int maxSeatsCount, IEnumerable<Seat> seats)
     {
         Id = id;
         Name = name;
@@ -16,9 +24,9 @@ public class Venue
         _seats = seats.ToList();
     }
     
-    public Guid Id { get;}
+    public VenueId Id { get;}
     
-    public string Name { get; private set; }
+    public VenueName Name { get; private set; }
     
     public int MaxSeatsCount {get; private set;}
     

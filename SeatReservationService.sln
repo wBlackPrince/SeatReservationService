@@ -1,12 +1,14 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "scr", "scr", "{E02D884B-1B4B-4E8D-91BD-C035421889E9}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{E02D884B-1B4B-4E8D-91BD-C035421889E9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SeatReservation.Domain", "src\SeatReservation.Domain\SeatReservation.Domain.csproj", "{14566240-C212-45F4-8318-5C148407A8FE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SeatReservation.Service", "src\SeatReservation.Service\SeatReservation.Service.csproj", "{F350908A-3EBC-4DED-9CE3-F419C780EE5C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SeatReservation.Shared", "src\SeatReservation.Shared\SeatReservation.Shared.csproj", "{1EA93AB4-FB29-4E3A-9A3E-514E9DBC5C6F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SeatReservation.Infrastructure.Postgres", "src\SeatReservation.Infrastructure.Postgres\SeatReservation.Infrastructure.Postgres.csproj", "{A4C3B5C2-A851-46C1-9343-5C8FE35A6A67}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -26,10 +28,15 @@ Global
 		{1EA93AB4-FB29-4E3A-9A3E-514E9DBC5C6F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1EA93AB4-FB29-4E3A-9A3E-514E9DBC5C6F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1EA93AB4-FB29-4E3A-9A3E-514E9DBC5C6F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A4C3B5C2-A851-46C1-9343-5C8FE35A6A67}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A4C3B5C2-A851-46C1-9343-5C8FE35A6A67}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A4C3B5C2-A851-46C1-9343-5C8FE35A6A67}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A4C3B5C2-A851-46C1-9343-5C8FE35A6A67}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{14566240-C212-45F4-8318-5C148407A8FE} = {E02D884B-1B4B-4E8D-91BD-C035421889E9}
 		{F350908A-3EBC-4DED-9CE3-F419C780EE5C} = {E02D884B-1B4B-4E8D-91BD-C035421889E9}
 		{1EA93AB4-FB29-4E3A-9A3E-514E9DBC5C6F} = {E02D884B-1B4B-4E8D-91BD-C035421889E9}
+		{A4C3B5C2-A851-46C1-9343-5C8FE35A6A67} = {E02D884B-1B4B-4E8D-91BD-C035421889E9}
 	EndGlobalSection
 EndGlobal

@@ -1,22 +1,32 @@
+using SeatReservationDomain.Venue;
+
 namespace SeatReservationDomain.Reservation;
+
+public record ReservationId(Guid Value);
 
 public class Reservation
 {
     public List<ReservationSeat> _seats;
+
+    // Ef Core
+    private Reservation()
+    {
+        
+    }
     
-    public Reservation(Guid id, IEnumerable<Guid> seatIds)
+    public Reservation(ReservationId id, IEnumerable<Guid> seatIds)
     {
         Id = id;
         Status = ReservationStatus.Pending;
         CreatedAt = DateTime.UtcNow;
         
-        var reservednSeats = seatIds
-            .Select(seatId => new ReservationSeat(Guid.NewGuid(), this, seatId, CreatedAt))
+        var reservedSeats = seatIds
+            .Select(seatId => new ReservationSeat( new ReservationSeatId(Guid.NewGuid()), this, new SeatId(Guid.NewGuid()), CreatedAt))
             .ToList();
-        _seats = reservednSeats;
+        _seats = reservedSeats;
     }
     
-    public Guid Id { get; private set; }
+    public ReservationId Id { get; private set; }
     
     public Guid EventId { get; private set; }
     
@@ -26,5 +36,5 @@ public class Reservation
     
     public DateTime CreatedAt { get; private set; }
     
-    public IReadOnlyList<ReservationSeat> Seats  => _seats;
+    public IReadOnlyList<ReservationSeat> ReservedSeats  => _seats;
 }
