@@ -8,9 +8,12 @@
 
     <ItemGroup>
       <ProjectReference Include="..\SeatReservation.Domain\SeatReservation.Domain.csproj" />
+      <ProjectReference Include="..\SeatReservation.Application\SeatReservation.Application.csproj" />
     </ItemGroup>
 
     <ItemGroup>
+      <PackageReference Include="Dapper" Version="2.1.66" />
+      <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="10.0.0-preview.6.25358.103" />
       <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.4" />
     </ItemGroup>
 

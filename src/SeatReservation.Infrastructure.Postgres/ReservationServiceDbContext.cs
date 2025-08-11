@@ -1,13 +1,16 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using Npgsql;
 using SeatReservationDomain;
 using SeatReservationDomain.Event;
 using SeatReservationDomain.Venue;
+using SeatReservationService.Application;
+using SeatReservationService.Application.Database;
 
 namespace SeatReservation.Infrastructure.Postgres;
 
-public class ReservationServiceDbContext: DbContext
+public class ReservationServiceDbContext: DbContext, IReservationServiceDbContext
 {
     private readonly string _connectionString;
 
@@ -26,6 +29,9 @@ public class ReservationServiceDbContext: DbContext
         base.OnConfiguring(optionsBuilder);
 
         optionsBuilder.UseNpgsql(_connectionString);
+        optionsBuilder.EnableDetailedErrors();
+        optionsBuilder.EnableSensitiveDataLogging();
+        optionsBuilder.UseLoggerFactory(CreateLoggerFactory());
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -37,5 +43,10 @@ public class ReservationServiceDbContext: DbContext
     public DbSet<User> Users => Set<User>();
     
     public DbSet<Event> Events => Set<Event>();
+
+
+
+    private ILoggerFactory CreateLoggerFactory() =>
+        LoggerFactory.Create(builder => { builder.AddConsole(); });
 }
 

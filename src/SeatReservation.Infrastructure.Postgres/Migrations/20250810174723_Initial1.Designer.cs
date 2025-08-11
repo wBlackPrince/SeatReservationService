@@ -13,7 +13,7 @@ using SeatReservation.Infrastructure.Postgres;
 namespace SeatReservation.Infrastructure.Postgres.Migrations
 {
     [DbContext(typeof(ReservationServiceDbContext))]
-    [Migration("20250731163316_Initial1")]
+    [Migration("20250810174723_Initial1")]
     partial class Initial1
     {
         /// <inheritdoc />
@@ -148,13 +148,16 @@ namespace SeatReservation.Infrastructure.Postgres.Migrations
             modelBuilder.Entity("SeatReservationDomain.Venue.Seat", b =>
                 {
                     b.Property<Guid>("Id")
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
 
                     b.Property<int>("RowNumber")
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("row_number");
 
                     b.Property<int>("SeatNumber")
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("seat_number");
 
                     b.Property<Guid>("venue_id")
                         .HasColumnType("uuid");
@@ -298,11 +301,13 @@ namespace SeatReservation.Infrastructure.Postgres.Migrations
 
             modelBuilder.Entity("SeatReservationDomain.Venue.Seat", b =>
                 {
-                    b.HasOne("SeatReservationDomain.Venue.Venue", null)
+                    b.HasOne("SeatReservationDomain.Venue.Venue", "Venue")
                         .WithMany("Seats")
                         .HasForeignKey("venue_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Venue");
                 });
 
             modelBuilder.Entity("SeatReservationDomain.Event.Event", b =>

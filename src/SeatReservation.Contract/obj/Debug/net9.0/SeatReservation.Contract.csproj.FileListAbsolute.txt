@@ -1,0 +1,12 @@
+D:\asp_apps\SeatReservationService\src\SeatReservation.Contract\bin\Debug\net9.0\SeatReservation.Contract.deps.json
+D:\asp_apps\SeatReservationService\src\SeatReservation.Contract\bin\Debug\net9.0\SeatReservation.Contract.dll
+D:\asp_apps\SeatReservationService\src\SeatReservation.Contract\bin\Debug\net9.0\SeatReservation.Contract.pdb
+D:\asp_apps\SeatReservationService\src\SeatReservation.Contract\obj\Debug\net9.0\SeatReservation.Contract.GeneratedMSBuildEditorConfig.editorconfig
+D:\asp_apps\SeatReservationService\src\SeatReservation.Contract\obj\Debug\net9.0\SeatReservation.Contract.AssemblyInfoInputs.cache
+D:\asp_apps\SeatReservationService\src\SeatReservation.Contract\obj\Debug\net9.0\SeatReservation.Contract.AssemblyInfo.cs
+D:\asp_apps\SeatReservationService\src\SeatReservation.Contract\obj\Debug\net9.0\SeatReservation.Contract.csproj.CoreCompileInputs.cache
+D:\asp_apps\SeatReservationService\src\SeatReservation.Contract\obj\Debug\net9.0\SeatReservation.Contract.sourcelink.json
+D:\asp_apps\SeatReservationService\src\SeatReservation.Contract\obj\Debug\net9.0\SeatReservation.Contract.dll
+D:\asp_apps\SeatReservationService\src\SeatReservation.Contract\obj\Debug\net9.0\refint\SeatReservation.Contract.dll
+D:\asp_apps\SeatReservationService\src\SeatReservation.Contract\obj\Debug\net9.0\SeatReservation.Contract.pdb
+D:\asp_apps\SeatReservationService\src\SeatReservation.Contract\obj\Debug\net9.0\ref\SeatReservation.Contract.dll

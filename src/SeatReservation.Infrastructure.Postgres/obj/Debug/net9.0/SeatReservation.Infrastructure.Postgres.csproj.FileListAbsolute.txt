@@ -16,3 +16,7 @@ D:\asp_apps\SeatReservationService\src\SeatReservation.Infrastructure.Postgres\o
 D:\asp_apps\SeatReservationService\src\SeatReservation.Infrastructure.Postgres\obj\Debug\net9.0\refint\SeatReservation.Infrastructure.Postgres.dll
 D:\asp_apps\SeatReservationService\src\SeatReservation.Infrastructure.Postgres\obj\Debug\net9.0\SeatReservation.Infrastructure.Postgres.pdb
 D:\asp_apps\SeatReservationService\src\SeatReservation.Infrastructure.Postgres\obj\Debug\net9.0\ref\SeatReservation.Infrastructure.Postgres.dll
+D:\asp_apps\SeatReservationService\src\SeatReservation.Infrastructure.Postgres\bin\Debug\net9.0\SeatReservation.Application.dll
+D:\asp_apps\SeatReservationService\src\SeatReservation.Infrastructure.Postgres\bin\Debug\net9.0\SeatReservation.Contract.dll
+D:\asp_apps\SeatReservationService\src\SeatReservation.Infrastructure.Postgres\bin\Debug\net9.0\SeatReservation.Application.pdb
+D:\asp_apps\SeatReservationService\src\SeatReservation.Infrastructure.Postgres\bin\Debug\net9.0\SeatReservation.Contract.pdb

@@ -78,14 +78,14 @@ namespace SeatReservation.Infrastructure.Postgres.Migrations
                 name: "seats",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    RowNumber = table.Column<int>(type: "integer", nullable: false),
-                    SeatNumber = table.Column<int>(type: "integer", nullable: false),
-                    venue_id = table.Column<Guid>(type: "uuid", nullable: false)
+                    id = table.Column<Guid>(type: "uuid", nullable: false),
+                    venue_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    row_number = table.Column<int>(type: "integer", nullable: false),
+                    seat_number = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("pk_seats", x => x.Id);
+                    table.PrimaryKey("pk_seats", x => x.id);
                     table.ForeignKey(
                         name: "FK_seats_venues_venue_id",
                         column: x => x.venue_id,
@@ -136,7 +136,7 @@ namespace SeatReservation.Infrastructure.Postgres.Migrations
                         name: "FK_reservation_seats_seats_seat_id",
                         column: x => x.seat_id,
                         principalTable: "seats",
-                        principalColumn: "Id",
+                        principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 });
 

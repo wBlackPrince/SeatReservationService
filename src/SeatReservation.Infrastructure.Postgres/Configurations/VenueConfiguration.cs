@@ -32,7 +32,7 @@ public class VenueConfiguration: IEntityTypeConfiguration<Venue>
 
         builder
             .HasMany(v => v.Seats)
-            .WithOne()
+            .WithOne(s => s.Venue)
             .HasForeignKey("venue_id")
             .IsRequired()
             .OnDelete(DeleteBehavior.Cascade);;
