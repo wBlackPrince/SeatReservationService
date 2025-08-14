@@ -174,7 +174,8 @@ namespace SeatReservation.Infrastructure.Postgres.Migrations
                         .HasColumnName("id");
 
                     b.Property<int>("MaxSeatsCount")
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("max_seats_count");
 
                     b.ComplexProperty<Dictionary<string, object>>("Name", "SeatReservationDomain.Venue.Venue.Name#VenueName", b1 =>
                         {

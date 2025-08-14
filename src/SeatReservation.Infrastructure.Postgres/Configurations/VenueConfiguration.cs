@@ -17,6 +17,9 @@ public class VenueConfiguration: IEntityTypeConfiguration<Venue>
             .HasConversion(v => v.Value, id => new VenueId(id))
             .HasColumnName("id");
 
+        builder.Property(v => v.MaxSeatsCount)
+            .HasColumnName("max_seats_count");
+
         builder.ComplexProperty(v => v.Name, nb =>
         {
             nb.Property(v => v.Prefix)
@@ -33,8 +36,8 @@ public class VenueConfiguration: IEntityTypeConfiguration<Venue>
         builder
             .HasMany(v => v.Seats)
             .WithOne(s => s.Venue)
-            .HasForeignKey("venue_id")
+            .HasForeignKey(s => s.VenueId)
             .IsRequired()
-            .OnDelete(DeleteBehavior.Cascade);;
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

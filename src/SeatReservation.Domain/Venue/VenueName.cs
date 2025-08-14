@@ -15,6 +15,21 @@ public record VenueName
     public string Name {get; }
 
     public override string ToString() => $"{Prefix}-{Name}";
+    
+    public static Result<VenueName, Error> CreateWithoutPrefix(string name)
+    {
+        if (string.IsNullOrWhiteSpace(name))
+        {
+            return Error.Validation("venue.name", "Имя площадки не должно быть пустым");
+        }
+
+        if ((name.Length > LengthConstants.Length500))
+        {
+            return Error.Validation("venue.name", "Имя площадки слишком длинное");
+        }
+
+        return new VenueName("", name);
+    }
 
     public static Result<VenueName, Error> Create(string prefix, string name)
     {

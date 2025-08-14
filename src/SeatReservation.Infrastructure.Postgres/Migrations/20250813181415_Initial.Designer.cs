@@ -13,8 +13,8 @@ using SeatReservation.Infrastructure.Postgres;
 namespace SeatReservation.Infrastructure.Postgres.Migrations
 {
     [DbContext(typeof(ReservationServiceDbContext))]
-    [Migration("20250810174723_Initial1")]
-    partial class Initial1
+    [Migration("20250813181415_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -177,7 +177,8 @@ namespace SeatReservation.Infrastructure.Postgres.Migrations
                         .HasColumnName("id");
 
                     b.Property<int>("MaxSeatsCount")
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("max_seats_count");
 
                     b.ComplexProperty<Dictionary<string, object>>("Name", "SeatReservationDomain.Venue.Venue.Name#VenueName", b1 =>
                         {

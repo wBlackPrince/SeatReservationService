@@ -4,7 +4,7 @@ using SeatReservationDomain.Venue;
 using SeatReservationService.Application.Database;
 using SeatReservationService.Contract;
 
-namespace SeatReservationService.Application;
+namespace SeatReservationService.Application.Venues;
 
 public class CreateVenueHandler
 {
@@ -22,7 +22,9 @@ public class CreateVenueHandler
     /// <summary>
     /// Создает площадки со всеми местами
     /// </summary>
-    public async Task<Result<Guid, Error>> Handle(CreateVenueRequest request, CancellationToken cancellationToken)
+    public async Task<Result<Guid, Error>> Handle(
+        CreateVenueRequest request, 
+        CancellationToken cancellationToken)
     {
         
         var venue = Venue.Create(

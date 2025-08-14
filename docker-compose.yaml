@@ -1,6 +1,6 @@
 services:
   postgres:
-    container_name: postgres
+    container_name: postgres-set-reservation
     image: postgres
     restart: always
     environment:
@@ -10,7 +10,7 @@ services:
     ports:
       - "5434:5432"
     volumes:
-      - postgres-data:/var/lib/postgresql/data
+      - postgres-seat-reservation-data:/var/lib/postgresql/data
     
 volumes:
-  postgres-data:
+  postgres-seat-reservation-data:

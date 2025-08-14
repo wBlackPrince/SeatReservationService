@@ -8,6 +8,7 @@ using SeatReservationDomain.Venue;
 using SeatReservationService;
 using SeatReservationService.Application;
 using SeatReservationService.Application.Database;
+using SeatReservationService.Application.Venues;
 using EventId = SeatReservationDomain.Event.EventId;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -22,13 +23,17 @@ builder.Services.AddScoped<IReservationServiceDbContext, ReservationServiceDbCon
     new ReservationServiceDbContext(
         builder.Configuration.GetConnectionString("ReservationServiceDb")!));
 
-builder.Services.AddScoped<IVenuesRepository, NpgsqlVenuesRepository>();
-//builder.Services.AddScoped<IVenuesRepository, EfCoreVenuesRepository>();
+//builder.Services.AddScoped<IVenuesRepository, NpgsqlVenuesRepository>();
+builder.Services.AddScoped<IVenuesRepository, EfCoreVenuesRepository>();
 
 builder.Services.AddOpenApi();
 builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 builder.Services.AddScoped<CreateVenueHandler>();
+builder.Services.AddScoped<UpdateVenueNameHandler>();
+builder.Services.AddScoped<UpdateVenueNameByPrefixHandler>();
+builder.Services.AddScoped<UpdateVenueHandler>();
+builder.Services.AddScoped<UpdateVenueSeatsHandler>();
 
 var app = builder.Build();
 
