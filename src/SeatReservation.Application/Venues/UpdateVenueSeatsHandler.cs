@@ -1,4 +1,5 @@
 using CSharpFunctionalExtensions;
+using SeatReservation.Infrastructure.Postgres.Database;
 using SeatReservation.Shared;
 using SeatReservationDomain.Venue;
 using SeatReservationService.Application.Database;
@@ -8,11 +9,15 @@ namespace SeatReservationService.Application.Venues;
 
 public class UpdateVenueSeatsHandler
 {
-    public readonly IVenuesRepository _venuesRepository;
+    private readonly IVenuesRepository _venuesRepository;
+    private readonly ITransactionManager _transactionManager;
 
-    public UpdateVenueSeatsHandler(IVenuesRepository venuesRepository)
+    public UpdateVenueSeatsHandler(
+        IVenuesRepository venuesRepository,
+        ITransactionManager transactionManager)
     {
         _venuesRepository = venuesRepository;
+        _transactionManager = transactionManager;
     }
     
     
@@ -22,11 +27,21 @@ public class UpdateVenueSeatsHandler
     {
         var venueId = new VenueId(request.VenueId);
         
+        var transactionScopeResult = await _transactionManager.BeginTransactionAsync(cancellationToken);
+
+        if (transactionScopeResult.IsFailure)
+        {
+            return transactionScopeResult.Error;
+        }
+        
+        using var transactionScope = transactionScopeResult.Value;
+        
         await _venuesRepository.DeleteSeatsByVenueId(venueId, cancellationToken);
         
         var venue = await _venuesRepository.GetById(venueId, cancellationToken);
         if (venue.IsFailure)
         {
+            transactionScope.Rollback();
             return venue.Error;
         }
         
@@ -48,9 +63,16 @@ public class UpdateVenueSeatsHandler
         }  
         
         venue.Value.UpdateSeats(seats);
-        
 
-        await _venuesRepository.Save();
+        await _transactionManager.SaveChangesAsync(cancellationToken);
+        
+        var commitedResult =  transactionScope.Commit();
+
+        if (commitedResult.IsFailure)
+        {
+            return commitedResult.Error;
+        }
+        
         return request.VenueId;
     }
 }

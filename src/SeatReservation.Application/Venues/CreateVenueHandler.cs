@@ -8,14 +8,10 @@ namespace SeatReservationService.Application.Venues;
 
 public class CreateVenueHandler
 {
-    private readonly IReservationServiceDbContext _dbContext;
     private readonly IVenuesRepository _venuesRepository;
     
-    public CreateVenueHandler(
-        IReservationServiceDbContext dbContext,
-        IVenuesRepository venuesRepository)
+    public CreateVenueHandler(IVenuesRepository venuesRepository)
     {
-        _dbContext = dbContext;
         _venuesRepository = venuesRepository;
     }
     

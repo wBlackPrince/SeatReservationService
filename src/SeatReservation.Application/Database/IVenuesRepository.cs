@@ -24,9 +24,6 @@ public interface IVenuesRepository
         VenueId id,
         CancellationToken cancellationToken);
 
-
-    Task Save();
-
     Task Update(Venue venue, CancellationToken cancellationToken);
 
     Task<IReadOnlyList<Venue>> GetByPrefix(

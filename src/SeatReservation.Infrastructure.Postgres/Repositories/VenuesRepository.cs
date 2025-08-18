@@ -1,20 +1,22 @@
 using CSharpFunctionalExtensions;
+using Dapper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Npgsql;
 using SeatReservation.Shared;
 using SeatReservationDomain.Venue;
 using SeatReservationService.Application.Database;
 
 namespace SeatReservation.Infrastructure.Postgres.Repositories;
 
-public class EfCoreVenuesRepository: IVenuesRepository
+public class VenuesRepository: IVenuesRepository
 {
     private readonly ReservationServiceDbContext _dbContext;
-    private readonly ILogger<EfCoreVenuesRepository> _logger;
+    private readonly ILogger<VenuesRepository> _logger;
 
-    public EfCoreVenuesRepository(
+    public VenuesRepository(
         ReservationServiceDbContext dbContext,
-        ILogger<EfCoreVenuesRepository> logger
+        ILogger<VenuesRepository> logger
         )
     {
         _dbContext = dbContext;
@@ -41,13 +43,21 @@ public class EfCoreVenuesRepository: IVenuesRepository
         VenueName venueName, 
         CancellationToken cancellationToken)
     {
-        await _dbContext.Venues
-            .Where(v => v.Id == venueId)
-            .ExecuteUpdateAsync(
-            setter => 
-                setter
-                    .SetProperty(v => v.Name.Name, venueName.Name)
-                    .SetProperty(v =>v.MaxSeatsCount, 100), cancellationToken);
+        _dbContext.Database.ExecuteSqlAsync(
+            $"UPDATE venues SET Name = {venueName.Name} WHERE Id = {venueId.Value}", cancellationToken);
+        _dbContext.Database.ExecuteSqlRawAsync(
+            "UPDATE venues SET Name = @Name WHERE Id = @Value", 
+            new NpgsqlParameter("@Name", venueName.Name),
+            new NpgsqlParameter("@Id", venueId.Value));
+        
+        
+        // await _dbContext.Venues
+        //     .Where(v => v.Id == venueId)
+        //     .ExecuteUpdateAsync(
+        //     setter => 
+        //         setter
+        //             .SetProperty(v => v.Name.Name, venueName.Name)
+        //             .SetProperty(v =>v.MaxSeatsCount, 100), cancellationToken);
 
         return venueId.Value;
     }
@@ -121,15 +131,6 @@ public class EfCoreVenuesRepository: IVenuesRepository
         var entries = _dbContext.ChangeTracker.Entries();
 
         return venues;
-    }
-
-    
-
-    public async Task Save()
-    {
-        var entires = _dbContext.ChangeTracker.Entries();
-        
-        await _dbContext.SaveChangesAsync();
     }
     
     

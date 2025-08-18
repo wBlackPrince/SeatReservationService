@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("SeatReservation.Application")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d79104c495ff4c3152ab6c15d14711ee0609372a")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+43cb165c11634ef8046c7ea1e17c5aac7f9b8e99")]
 [assembly: System.Reflection.AssemblyProductAttribute("SeatReservation.Application")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SeatReservation.Application")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

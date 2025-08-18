@@ -1,4 +1,5 @@
 using CSharpFunctionalExtensions;
+using SeatReservation.Infrastructure.Postgres.Database;
 using SeatReservation.Shared;
 using SeatReservationDomain.Venue;
 using SeatReservationService.Application.Database;
@@ -8,11 +9,15 @@ namespace SeatReservationService.Application.Venues;
 
 public class UpdateVenueNameHandler
 {
-    public readonly IVenuesRepository _venuesRepository;
+    private readonly IVenuesRepository _venuesRepository;
+    private readonly ITransactionManager _transactionManager;
 
-    public UpdateVenueNameHandler(IVenuesRepository venuesRepository)
+    public UpdateVenueNameHandler(
+        IVenuesRepository venuesRepository,
+        ITransactionManager transactionManager)
     {
         _venuesRepository = venuesRepository;
+        _transactionManager = transactionManager;
     }
     
     
@@ -22,17 +27,23 @@ public class UpdateVenueNameHandler
     {
         var venueId = new VenueId(nameRequest.VenueId);
         
+        var transactionScopeResult = await _transactionManager.BeginTransactionAsync(cancellationToken);
+        
+        var transactionScope = transactionScopeResult.Value;
 
         var (_, isFailure, venue, error) = await _venuesRepository.GetById(venueId, cancellationToken);
         if (isFailure)
         {
+            transactionScope.Rollback();
             return error;
         }
 
         venue.UpdateName(nameRequest.Name);
 
 
-        await _venuesRepository.Save();
+        await _transactionManager.SaveChangesAsync(cancellationToken);
+        
+        transactionScope.Commit();
         
         return nameRequest.VenueId;
     }
