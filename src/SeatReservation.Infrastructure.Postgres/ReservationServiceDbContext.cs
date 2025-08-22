@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 using Npgsql;
 using SeatReservationDomain;
 using SeatReservationDomain.Event;
+using SeatReservationDomain.Reservation;
 using SeatReservationDomain.Venue;
 using SeatReservationService.Application;
 using SeatReservationService.Application.Database;
@@ -45,6 +46,8 @@ public class ReservationServiceDbContext: DbContext, IReservationServiceDbContex
     public DbSet<Event> Events => Set<Event>();
 
     public DbSet<Seat> Seats => Set<Seat>();
+    
+    public DbSet<Reservation> Reservations => Set<Reservation>();
 
 
 

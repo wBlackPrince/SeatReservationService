@@ -1,3 +1,5 @@
+using CSharpFunctionalExtensions;
+using SeatReservation.Shared;
 using SeatReservationDomain.Venue;
 
 namespace SeatReservationDomain.Reservation;
@@ -14,14 +16,17 @@ public class Reservation
         
     }
     
-    public Reservation(ReservationId id, IEnumerable<Guid> seatIds)
+    private Reservation(ReservationId id, Guid eventId, Guid userId, IEnumerable<Guid> seatIds)
     {
         Id = id;
+        EventId = eventId;
+        UserId = userId;
+        
         Status = ReservationStatus.Pending;
         CreatedAt = DateTime.UtcNow;
         
         var reservedSeats = seatIds
-            .Select(seatId => new ReservationSeat( new ReservationSeatId(Guid.NewGuid()), this, new SeatId(Guid.NewGuid()), CreatedAt))
+            .Select(seatId => new ReservationSeat( new ReservationSeatId(Guid.NewGuid()), this, new SeatId(seatId), CreatedAt))
             .ToList();
         _seats = reservedSeats;
     }
@@ -37,4 +42,15 @@ public class Reservation
     public DateTime CreatedAt { get; private set; }
     
     public IReadOnlyList<ReservationSeat> ReservedSeats  => _seats;
+
+    public static Reservation Create(Guid eventId, Guid userId,IEnumerable<Guid> seatIds)
+    {
+        Reservation reservation = new Reservation(
+            new ReservationId(Guid.NewGuid()), 
+            eventId, 
+            userId,
+            seatIds);
+        
+        return reservation;
+    }
 }

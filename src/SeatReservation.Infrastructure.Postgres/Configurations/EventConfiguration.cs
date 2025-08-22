@@ -30,5 +30,23 @@ public class EventConfiguration: IEntityTypeConfiguration<Event>
         builder.Property(e => e.Info)
             .HasConversion(new EventInfoConverter())
             .HasColumnName("info");
+
+        builder.Property(e => e.Name)
+            .HasColumnName("name");
+        
+        builder.Property(e => e.EventDate)
+            .HasColumnName("event_date");
+        
+        builder.Property(e => e.StartDate)
+            .HasColumnName("start_date");
+        
+        builder.Property(e => e.EndDate)
+            .HasColumnName("end_date");
+        
+        builder.Property(e => e.Type)
+            .HasConversion(
+                o => o.ToString(),
+                event_type => (EventType)Enum.Parse(typeof(EventType), event_type))
+            .HasColumnName("type");
     }
 }

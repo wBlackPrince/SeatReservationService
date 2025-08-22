@@ -58,8 +58,11 @@ namespace SeatReservation.Infrastructure.Postgres.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     venue_id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Name = table.Column<string>(type: "text", nullable: false),
-                    EventDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    name = table.Column<string>(type: "text", nullable: false),
+                    event_date = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    start_date = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    end_date = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    Status = table.Column<int>(type: "integer", nullable: false),
                     type = table.Column<string>(type: "text", nullable: false),
                     info = table.Column<string>(type: "text", nullable: false)
                 },

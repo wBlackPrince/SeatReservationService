@@ -28,8 +28,13 @@ namespace SeatReservation.Infrastructure.Postgres.Migrations
                     b.Property<Guid>("Id")
                         .HasColumnType("uuid");
 
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("end_date");
+
                     b.Property<DateTime>("EventDate")
-                        .HasColumnType("timestamp without time zone");
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("event_date");
 
                     b.Property<string>("Info")
                         .IsRequired()
@@ -38,7 +43,15 @@ namespace SeatReservation.Infrastructure.Postgres.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("name");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("start_date");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
 
                     b.Property<string>("Type")
                         .IsRequired()
@@ -156,13 +169,14 @@ namespace SeatReservation.Infrastructure.Postgres.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("seat_number");
 
-                    b.Property<Guid>("venue_id")
-                        .HasColumnType("uuid");
+                    b.Property<Guid>("VenueId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("venue_id");
 
                     b.HasKey("Id")
                         .HasName("pk_seats");
 
-                    b.HasIndex("venue_id");
+                    b.HasIndex("VenueId");
 
                     b.ToTable("seats", (string)null);
                 });
@@ -301,7 +315,7 @@ namespace SeatReservation.Infrastructure.Postgres.Migrations
                 {
                     b.HasOne("SeatReservationDomain.Venue.Venue", "Venue")
                         .WithMany("Seats")
-                        .HasForeignKey("venue_id")
+                        .HasForeignKey("VenueId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
