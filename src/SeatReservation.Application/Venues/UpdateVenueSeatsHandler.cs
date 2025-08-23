@@ -1,9 +1,10 @@
+using System.Data;
 using CSharpFunctionalExtensions;
-using SeatReservation.Infrastructure.Postgres.Database;
 using SeatReservation.Shared;
 using SeatReservationDomain.Venue;
 using SeatReservationService.Application.Database;
 using SeatReservationService.Contract;
+using SeatReservationService.Contract.venues;
 
 namespace SeatReservationService.Application.Venues;
 
@@ -27,7 +28,9 @@ public class UpdateVenueSeatsHandler
     {
         var venueId = new VenueId(request.VenueId);
         
-        var transactionScopeResult = await _transactionManager.BeginTransactionAsync(cancellationToken);
+        var transactionScopeResult = await _transactionManager.BeginTransactionAsync(
+            IsolationLevel.ReadCommitted,
+            cancellationToken);
 
         if (transactionScopeResult.IsFailure)
         {

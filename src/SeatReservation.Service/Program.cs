@@ -9,9 +9,12 @@ using SeatReservationDomain.Venue;
 using SeatReservationService;
 using SeatReservationService.Application;
 using SeatReservationService.Application.Database;
+using SeatReservationService.Application.Events;
 using SeatReservationService.Application.Reservations;
+using SeatReservationService.Application.Seats;
 using SeatReservationService.Application.Venues;
 using SeatReservationService.Contract;
+using SeatReservationService.Contract.Reservations;
 using EventId = SeatReservationDomain.Event.EventId;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -39,6 +42,7 @@ builder.Services.AddScoped<UpdateVenueHandler>();
 builder.Services.AddScoped<UpdateVenueSeatsHandler>();
 builder.Services.AddScoped<ReserveHandler>();
 builder.Services.AddScoped<CreateConcertHandler>();
+builder.Services.AddScoped<DeleteReservationHandler>();
 
 builder.Services.AddScoped<IValidator<ReserveRequest>, ReserveRequestValidator>();
 

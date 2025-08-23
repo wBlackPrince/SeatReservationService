@@ -73,17 +73,21 @@ namespace SeatReservation.Infrastructure.Postgres.Migrations
             modelBuilder.Entity("SeatReservationDomain.Event.EventDetails", b =>
                 {
                     b.Property<Guid>("Id")
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
 
                     b.Property<int>("Capacity")
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("capacity");
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("description");
 
                     b.Property<Guid>("EventId")
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("event_id");
 
                     b.HasKey("Id")
                         .HasName("pk_event_details");
@@ -122,6 +126,10 @@ namespace SeatReservation.Infrastructure.Postgres.Migrations
                     b.Property<Guid>("Id")
                         .HasColumnType("uuid");
 
+                    b.Property<Guid>("EventId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("event_id");
+
                     b.Property<DateTime>("ReservationAt")
                         .HasColumnType("timestamp without time zone");
 
@@ -139,10 +147,13 @@ namespace SeatReservation.Infrastructure.Postgres.Migrations
 
                     b.HasIndex("reservation_id");
 
+                    b.HasIndex("EventId", "SeatId")
+                        .IsUnique();
+
                     b.ToTable("reservation_seats", (string)null);
                 });
 
-            modelBuilder.Entity("SeatReservationDomain.User", b =>
+            modelBuilder.Entity("SeatReservationDomain.Users.User", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -249,9 +260,9 @@ namespace SeatReservation.Infrastructure.Postgres.Migrations
                     b.Navigation("Reservation");
                 });
 
-            modelBuilder.Entity("SeatReservationDomain.User", b =>
+            modelBuilder.Entity("SeatReservationDomain.Users.User", b =>
                 {
-                    b.OwnsOne("SeatReservationDomain.Details", "Details", b1 =>
+                    b.OwnsOne("SeatReservationDomain.Users.Details", "Details", b1 =>
                         {
                             b1.Property<Guid>("UserId")
                                 .HasColumnType("uuid");
@@ -275,7 +286,7 @@ namespace SeatReservation.Infrastructure.Postgres.Migrations
                             b1.WithOwner()
                                 .HasForeignKey("UserId");
 
-                            b1.OwnsMany("SeatReservationDomain.SocialNetwork", "Socials", b2 =>
+                            b1.OwnsMany("SeatReservationDomain.Users.SocialNetwork", "Socials", b2 =>
                                 {
                                     b2.Property<Guid>("DetailsUserId")
                                         .HasColumnType("uuid");

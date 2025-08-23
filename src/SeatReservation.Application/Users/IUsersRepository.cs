@@ -1,8 +1,8 @@
 using CSharpFunctionalExtensions;
 using SeatReservation.Shared;
-using SeatReservationDomain;
+using SeatReservationDomain.Users;
 
-namespace SeatReservation.Infrastructure.Postgres.Repositories;
+namespace SeatReservationService.Application.Users;
 
 public interface IUsersRepository
 {

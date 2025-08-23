@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using SeatReservation.Infrastructure.Postgres.Repositories;
+using SeatReservationService.Application.Events;
 using SeatReservationService.Contract;
+using SeatReservationService.Contract.Events;
 
 namespace SeatReservationService.Controllers;
 

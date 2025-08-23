@@ -2,7 +2,7 @@ using CSharpFunctionalExtensions;
 using SeatReservation.Shared;
 using SeatReservationDomain.Event;
 
-namespace SeatReservation.Infrastructure.Postgres.Repositories;
+namespace SeatReservationService.Application.Events;
 
 public interface IEventsRepository
 {

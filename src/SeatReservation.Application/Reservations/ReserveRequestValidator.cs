@@ -1,5 +1,6 @@
 using FluentValidation;
 using SeatReservationService.Contract;
+using SeatReservationService.Contract.Reservations;
 
 namespace SeatReservationService.Application.Reservations;
 

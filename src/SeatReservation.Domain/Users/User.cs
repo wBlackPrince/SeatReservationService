@@ -1,4 +1,4 @@
-namespace SeatReservationDomain;
+namespace SeatReservationDomain.Users;
 
 public class User
 {

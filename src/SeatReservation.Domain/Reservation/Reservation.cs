@@ -26,7 +26,12 @@ public class Reservation
         CreatedAt = DateTime.UtcNow;
         
         var reservedSeats = seatIds
-            .Select(seatId => new ReservationSeat( new ReservationSeatId(Guid.NewGuid()), this, new SeatId(seatId), CreatedAt))
+            .Select(seatId => new ReservationSeat( 
+                new ReservationSeatId(Guid.NewGuid()), 
+                this, 
+                new SeatId(seatId), 
+                eventId,
+                CreatedAt))
             .ToList();
         _seats = reservedSeats;
     }

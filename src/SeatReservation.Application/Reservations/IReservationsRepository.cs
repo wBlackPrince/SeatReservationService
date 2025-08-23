@@ -1,10 +1,9 @@
 using CSharpFunctionalExtensions;
 using SeatReservation.Shared;
-using SeatReservationDomain.Event;
 using SeatReservationDomain.Reservation;
 using SeatReservationDomain.Venue;
 
-namespace SeatReservation.Infrastructure.Postgres.Repositories;
+namespace SeatReservationService.Application.Reservations;
 
 public interface IReservationsRepository
 {
@@ -14,4 +13,10 @@ public interface IReservationsRepository
         Guid eventId,
         IEnumerable<SeatId> seatIds,
         CancellationToken cancellationToken);
+
+    Task<Result<Guid, Error>> Delete(ReservationId reservationId, CancellationToken cancellationToken);
+
+    Task<int> GetReservedSeatsCount(Guid eventId, CancellationToken cancellationToken);
+
+    Task SaveChangesAsync(CancellationToken cancellationToken);
 }

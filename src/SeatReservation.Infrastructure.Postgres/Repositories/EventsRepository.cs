@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using SeatReservation.Shared;
 using SeatReservationDomain.Event;
+using SeatReservationService.Application.Events;
 using EventId = SeatReservationDomain.Event.EventId;
 
 namespace SeatReservation.Infrastructure.Postgres.Repositories;
@@ -27,7 +28,9 @@ public class EventsRepository : IEventsRepository
     
     public async Task<Result<Event, Error>> GetById(EventId eventId, CancellationToken cancellationToken)
     {
-        var @event = await _dbContext.Events.FirstOrDefaultAsync(e => e.Id == eventId, cancellationToken);
+        var @event = await _dbContext.Events
+            .Include(e => e.Details)
+            .FirstOrDefaultAsync(e => e.Id == eventId, cancellationToken);
 
         if (@event is null)
         {

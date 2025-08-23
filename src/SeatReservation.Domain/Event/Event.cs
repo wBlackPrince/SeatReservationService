@@ -55,8 +55,10 @@ public class Event
 
     public IEventInfo Info {get; private set;}
 
-    public bool IsAvailableForReservation() 
-        => Status == EventStatus.Planned && StartDate > DateTime.Now;
+    public bool IsAvailableForReservation(int capacitySum) 
+        => Status == EventStatus.Planned && 
+           StartDate > DateTime.Now &&
+           capacitySum <= Details.Capacity;
 
 
     private static Result<EventDetails, Error> Validate(

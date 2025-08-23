@@ -13,7 +13,17 @@ public class EventDetailsConfiguration: IEntityTypeConfiguration<EventDetails>
         builder.HasKey(v => v.Id).HasName("pk_event_details");
         
         builder.Property(v => v.Id)
-            .HasConversion(v => v.Value, id => new EventDetailsId(id));
+            .HasConversion(v => v.Value, id => new EventDetailsId(id))
+            .HasColumnName("id");
+
+        builder.Property(v => v.Capacity)
+            .HasColumnName("capacity");
+        
+        builder.Property(v => v.Description)
+            .HasColumnName("description");
+        
+        builder.Property(v => v.EventId)
+            .HasColumnName("event_id");
         
         builder
             .HasOne<Event>()

@@ -1,8 +1,8 @@
 using CSharpFunctionalExtensions;
 using SeatReservation.Shared;
 using SeatReservationDomain.Venue;
-using SeatReservationService.Application.Database;
 using SeatReservationService.Contract;
+using SeatReservationService.Contract.venues;
 
 namespace SeatReservationService.Application.Venues;
 

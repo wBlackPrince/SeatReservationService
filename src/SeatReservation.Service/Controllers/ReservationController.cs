@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using SeatReservationService.Application.Reservations;
 using SeatReservationService.Contract;
+using SeatReservationService.Contract.Reservations;
 
 namespace SeatReservationService.Controllers;
 
@@ -16,7 +17,23 @@ public class ReservationController: ControllerBase
         CancellationToken cancellationToken)
     {
         var result = await handler.Handle(request, cancellationToken);
+
+        if (result.IsFailure)
+        {
+            return BadRequest(result.Error);
+        }
         
-        return Ok(result.Value);
+        return Ok();
+    }
+
+    [HttpDelete("{reservationId:guid}")]
+    public async Task<ActionResult<Guid>> Delete(
+        [FromRoute] Guid reservationId,
+        [FromServices]DeleteReservationHandler handler,
+        CancellationToken cancellationToken)
+    {
+        var result = await handler.Handle(reservationId, cancellationToken);
+
+        return Ok();
     }
 }

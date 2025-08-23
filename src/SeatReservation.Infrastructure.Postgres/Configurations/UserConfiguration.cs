@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using SeatReservation.Shared;
 using SeatReservationDomain;
+using SeatReservationDomain.Users;
 using SeatReservationDomain.Venue;
 
 namespace SeatReservation.Infrastructure.Postgres.Configurations;

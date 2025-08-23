@@ -2,7 +2,7 @@ using CSharpFunctionalExtensions;
 using SeatReservation.Shared;
 using SeatReservationDomain.Venue;
 
-namespace SeatReservationService.Application.Database;
+namespace SeatReservationService.Application.Venues;
 
 public interface IVenuesRepository
 {

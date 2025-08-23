@@ -3,9 +3,9 @@ using Microsoft.Extensions.Logging;
 using SeatReservation.Shared;
 using SeatReservationDomain.Event;
 using SeatReservationDomain.Venue;
-using SeatReservationService.Contract;
+using SeatReservationService.Contract.Events;
 
-namespace SeatReservation.Infrastructure.Postgres.Repositories;
+namespace SeatReservationService.Application.Events;
 
 public class CreateConcertHandler
 {

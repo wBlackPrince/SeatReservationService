@@ -2,6 +2,7 @@ using System.Data;
 using CSharpFunctionalExtensions;
 using Microsoft.Extensions.Logging;
 using SeatReservation.Shared;
+using SeatReservationService.Application.Database;
 
 namespace SeatReservation.Infrastructure.Postgres.Database;
 

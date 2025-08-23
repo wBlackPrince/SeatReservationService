@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 using SeatReservation.Shared;
 using SeatReservationDomain.Reservation;
 using SeatReservationDomain.Venue;
+using SeatReservationService.Application.Reservations;
 using EventId = SeatReservationDomain.Event.EventId;
 
 namespace SeatReservation.Infrastructure.Postgres.Repositories;
@@ -50,5 +51,37 @@ public class ReservationsRepository : IReservationsRepository
             .AnyAsync(cancellationToken);
 
         return hasReservedSeats.Result;
+    }
+
+    public async Task<Result<Guid, Error>> Delete(ReservationId reservationId, CancellationToken cancellationToken)
+    {
+        var reservation = await _dbContext.Reservations.FirstOrDefaultAsync(
+            r => r.Id == reservationId, 
+            cancellationToken);
+
+        if (reservation is null)
+        {
+            return Error.Failure("reservation.delete", "no reservation with this id was found");
+        }
+
+        _dbContext.Reservations.Remove(reservation);
+        
+        return reservation.Id.Value;
+    }
+
+    public async Task<int> GetReservedSeatsCount(Guid eventId, CancellationToken cancellationToken)
+    {
+        return await _dbContext.Reservations
+            .Where(r => r.EventId == eventId)
+            .Where(r => 
+                (r.Status == ReservationStatus.Confirmed) || 
+                (r.Status == ReservationStatus.Pending))
+            .SelectMany(r => r.ReservedSeats)
+            .CountAsync(cancellationToken);
+    }
+
+    public async Task SaveChangesAsync(CancellationToken cancellationToken)
+    {
+        await _dbContext.SaveChangesAsync(cancellationToken);
     }
 }

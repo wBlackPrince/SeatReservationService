@@ -5,7 +5,7 @@ using Microsoft.Extensions.Logging;
 using Npgsql;
 using SeatReservation.Shared;
 using SeatReservationDomain.Venue;
-using SeatReservationService.Application.Database;
+using SeatReservationService.Application.Venues;
 
 namespace SeatReservation.Infrastructure.Postgres.Repositories;
 

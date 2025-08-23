@@ -3,6 +3,8 @@ using Microsoft.Extensions.Logging;
 using SeatReservation.Shared;
 using SeatReservationDomain;
 using SeatReservationDomain.Event;
+using SeatReservationDomain.Users;
+using SeatReservationService.Application.Users;
 
 namespace SeatReservation.Infrastructure.Postgres.Repositories;
 

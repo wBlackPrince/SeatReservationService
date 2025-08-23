@@ -1,10 +1,10 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
-using SeatReservationDomain;
 using SeatReservationDomain.Event;
+using SeatReservationDomain.Users;
 using SeatReservationDomain.Venue;
 
-namespace SeatReservationService.Application.Database;
+namespace SeatReservationService.Application.Reservations;
 
 public interface IReservationServiceDbContext
 {

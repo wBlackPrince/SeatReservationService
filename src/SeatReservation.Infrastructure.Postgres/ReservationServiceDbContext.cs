@@ -5,9 +5,10 @@ using Npgsql;
 using SeatReservationDomain;
 using SeatReservationDomain.Event;
 using SeatReservationDomain.Reservation;
+using SeatReservationDomain.Users;
 using SeatReservationDomain.Venue;
 using SeatReservationService.Application;
-using SeatReservationService.Application.Database;
+using SeatReservationService.Application.Reservations;
 
 namespace SeatReservation.Infrastructure.Postgres;
 

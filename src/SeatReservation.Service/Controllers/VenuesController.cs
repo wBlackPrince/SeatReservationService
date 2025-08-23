@@ -2,6 +2,7 @@
 using SeatReservationService.Application;
 using SeatReservationService.Application.Venues;
 using SeatReservationService.Contract;
+using SeatReservationService.Contract.venues;
 
 namespace SeatReservationService.Controllers;
 

@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using SeatReservation.Shared;
 using SeatReservationDomain.Venue;
+using SeatReservationService.Application.Seats;
 
 namespace SeatReservation.Infrastructure.Postgres.Repositories;
 
