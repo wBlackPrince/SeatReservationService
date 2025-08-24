@@ -13,7 +13,7 @@ using SeatReservation.Infrastructure.Postgres;
 namespace SeatReservation.Infrastructure.Postgres.Migrations
 {
     [DbContext(typeof(ReservationServiceDbContext))]
-    [Migration("20250823151917_Initial")]
+    [Migration("20250824174620_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -91,6 +91,15 @@ namespace SeatReservation.Infrastructure.Postgres.Migrations
                     b.Property<Guid>("EventId")
                         .HasColumnType("uuid")
                         .HasColumnName("event_id");
+
+                    b.Property<DateTime>("LastReservationUtc")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<uint>("Version")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("xid")
+                        .HasColumnName("xmin");
 
                     b.HasKey("Id")
                         .HasName("pk_event_details");

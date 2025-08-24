@@ -135,6 +135,14 @@ public class ReserveHandler
             return Error.Failure("reservation", "reservation.failure");
         }
         
+        @event.Details.ReserveSeat();
+
+        var saveResult = await _transactionManager.SaveChangesAsync(cancellationToken);
+        if (saveResult.IsFailure)
+        {
+            transactionScope.Rollback();
+            return saveResult.Error;
+        }
         
         var commitedResult = transactionScope.Commit();
 

@@ -71,6 +71,10 @@ public class ReservationsRepository : IReservationsRepository
 
     public async Task<int> GetReservedSeatsCount(Guid eventId, CancellationToken cancellationToken)
     {
+        // await _dbContext.Database.ExecuteSqlAsync(
+        //     $"SELECT capacity from event_details WHERE event_id = {eventId} FOR UPDATE",
+        //     cancellationToken);
+        
         return await _dbContext.Reservations
             .Where(r => r.EventId == eventId)
             .Where(r => 

@@ -31,5 +31,8 @@ public class EventDetailsConfiguration: IEntityTypeConfiguration<EventDetails>
             .HasForeignKey<EventDetails>(ed => ed.EventId)
             .IsRequired()
             .OnDelete(DeleteBehavior.Cascade);
+
+        builder.Property(ed => ed.Version)
+            .IsRowVersion();
     }
 }
