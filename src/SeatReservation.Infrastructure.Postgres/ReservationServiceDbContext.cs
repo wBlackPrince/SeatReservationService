@@ -49,6 +49,8 @@ public class ReservationServiceDbContext: DbContext, IReservationServiceDbContex
     public DbSet<Seat> Seats => Set<Seat>();
     
     public DbSet<Reservation> Reservations => Set<Reservation>();
+    
+    public DbSet<ReservationSeat> ReservationSeats => Set<ReservationSeat>();
 
 
 

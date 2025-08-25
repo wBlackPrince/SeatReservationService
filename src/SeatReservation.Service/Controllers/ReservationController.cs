@@ -26,6 +26,22 @@ public class ReservationController: ControllerBase
         return Ok();
     }
 
+    [HttpPost("/adjacent")]
+    public async Task<IActionResult> ReserveAdjacentSeats(
+        [FromBody] ReserveAdjacentSeatsRequest request,
+        [FromServices] ReserveAdjacentSeatsHandler handler,
+        CancellationToken cancellationToken)
+    {
+        var result = await handler.Handle(request, cancellationToken);
+
+        if (result.IsFailure)
+        {
+            return BadRequest(result.Error);
+        }
+        
+        return Ok(result.Value);
+    }
+
     [HttpDelete("{reservationId:guid}")]
     public async Task<ActionResult<Guid>> Delete(
         [FromRoute] Guid reservationId,

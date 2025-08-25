@@ -73,7 +73,7 @@ public class ReserveHandler
         // 2. Доступно ли бронирование для мероприятия. Проверить даты. Проверить статус.
 
         var eventId = new EventId(request.EventId);
-        var (_, isFailure, @event, error) = await _eventsRepository.GetById(eventId, cancellationToken);
+        var (_, isFailure, @event, error) = await _eventsRepository.GetByIdWithLock(eventId, cancellationToken);
 
         if (isFailure)
         {

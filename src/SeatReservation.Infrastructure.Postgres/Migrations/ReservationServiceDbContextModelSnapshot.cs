@@ -26,7 +26,8 @@ namespace SeatReservation.Infrastructure.Postgres.Migrations
             modelBuilder.Entity("SeatReservationDomain.Event.Event", b =>
                 {
                     b.Property<Guid>("Id")
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
 
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("timestamp without time zone")

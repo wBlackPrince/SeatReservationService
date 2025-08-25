@@ -43,6 +43,7 @@ builder.Services.AddScoped<UpdateVenueSeatsHandler>();
 builder.Services.AddScoped<ReserveHandler>();
 builder.Services.AddScoped<CreateConcertHandler>();
 builder.Services.AddScoped<DeleteReservationHandler>();
+builder.Services.AddScoped<ReserveAdjacentSeatsHandler>();
 
 builder.Services.AddScoped<IValidator<ReserveRequest>, ReserveRequestValidator>();
 

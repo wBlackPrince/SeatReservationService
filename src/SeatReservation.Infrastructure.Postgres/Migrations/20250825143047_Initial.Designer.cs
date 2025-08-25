@@ -13,7 +13,7 @@ using SeatReservation.Infrastructure.Postgres;
 namespace SeatReservation.Infrastructure.Postgres.Migrations
 {
     [DbContext(typeof(ReservationServiceDbContext))]
-    [Migration("20250824174620_Initial")]
+    [Migration("20250825143047_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -29,7 +29,8 @@ namespace SeatReservation.Infrastructure.Postgres.Migrations
             modelBuilder.Entity("SeatReservationDomain.Event.Event", b =>
                 {
                     b.Property<Guid>("Id")
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
 
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("timestamp without time zone")

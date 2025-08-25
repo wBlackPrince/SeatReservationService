@@ -26,9 +26,10 @@ public class EventsRepository : IEventsRepository
         return @event.Id.Value;
     }
     
-    public async Task<Result<Event, Error>> GetById(EventId eventId, CancellationToken cancellationToken)
+    public async Task<Result<Event, Error>> GetByIdWithLock(EventId eventId, CancellationToken cancellationToken)
     {
         var @event = await _dbContext.Events
+            .FromSql($"SELECT * from events WHERE id = {eventId.Value} FOR UPDATE")
             .Include(e => e.Details)
             .FirstOrDefaultAsync(e => e.Id == eventId, cancellationToken);
 
@@ -36,7 +37,7 @@ public class EventsRepository : IEventsRepository
         {
             return Error.Failure("Event.get", "Event not found");
         }
-
+        
         return @event;
     }
     

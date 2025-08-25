@@ -56,7 +56,7 @@ namespace SeatReservation.Infrastructure.Postgres.Migrations
                 name: "events",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    id = table.Column<Guid>(type: "uuid", nullable: false),
                     venue_id = table.Column<Guid>(type: "uuid", nullable: false),
                     name = table.Column<string>(type: "text", nullable: false),
                     event_date = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
@@ -68,7 +68,7 @@ namespace SeatReservation.Infrastructure.Postgres.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("pk_events", x => x.Id);
+                    table.PrimaryKey("pk_events", x => x.id);
                     table.ForeignKey(
                         name: "FK_events_venues_venue_id",
                         column: x => x.venue_id,
@@ -115,7 +115,7 @@ namespace SeatReservation.Infrastructure.Postgres.Migrations
                         name: "FK_event_details_events_event_id",
                         column: x => x.event_id,
                         principalTable: "events",
-                        principalColumn: "Id",
+                        principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 });
 

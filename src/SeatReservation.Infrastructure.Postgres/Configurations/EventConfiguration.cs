@@ -15,7 +15,8 @@ public class EventConfiguration: IEntityTypeConfiguration<Event>
         builder.HasKey(v => v.Id).HasName("pk_events");
         
         builder.Property(v => v.Id)
-            .HasConversion(v => v.Value, id => new EventId(id));
+            .HasConversion(v => v.Value, id => new EventId(id))
+            .HasColumnName("id");
 
         builder.HasOne<Venue>()
             .WithMany()
