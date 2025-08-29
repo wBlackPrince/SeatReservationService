@@ -108,12 +108,20 @@ public class ReserveAdjacentSeatsHandler
 
         var seatsIds = selectedSeats.Select(s => s.Id).ToList();
 
-        var reservation = Reservation.Create(
-            eventId.Value,
+        var reservationResult = Reservation.Create(
+            eventId,
             request.UserId,
             seatsIds.Select(si => si.Value).ToList());
 
-        var addResult = await _reservationsRepository.Add(reservation, cancellationToken);
+        if (reservationResult.IsFailure)
+        {
+            transaction.Rollback();
+            return reservationResult.Error;
+        }
+
+        var addResult = await _reservationsRepository.Add(
+            reservationResult.Value, 
+            cancellationToken);
 
         if (addResult.IsFailure)
         {

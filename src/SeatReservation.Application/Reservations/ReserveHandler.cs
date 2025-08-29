@@ -122,12 +122,21 @@ public class ReserveHandler
         // }
         
         // создать Reservation с reserved seats
-        var reservation = Reservation.Create(request.EventId, request.UserId, request.Seats);
+        var reservationResult = Reservation.Create(
+            new EventId(request.EventId), 
+            request.UserId, 
+            request.Seats);
 
-
+        if (reservationResult.IsFailure)
+        {
+            transactionScope.Rollback();
+            return reservationResult.Error;
+        }
         
         // сохранение бронирования в бд
-        var reservationId = await _reservationsRepository.Add(reservation, cancellationToken);
+        var reservationId = await _reservationsRepository.Add(
+            reservationResult.Value, 
+            cancellationToken);
 
         if (reservationId.IsFailure)
         {
