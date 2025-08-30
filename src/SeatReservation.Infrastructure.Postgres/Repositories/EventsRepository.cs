@@ -41,15 +41,6 @@ public class EventsRepository : IEventsRepository
         return @event;
     }
     
-    public async Task<Event?> GetById(EventId eventId, CancellationToken cancellationToken)
-    {
-        return await _dbContext.Events
-            .Include(e => e.Details)
-            .AsNoTracking()
-            .FirstOrDefaultAsync(
-                e => e.Id == eventId, cancellationToken);
-    }
-    
     public async Task<Result<Event, Error>> GetAvailableForReservation(
         EventId eventId, 
         CancellationToken cancellationToken)

@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using SeatReservation.Infrastructure.Postgres.Repositories;
 using SeatReservationService.Application.Events;
+using SeatReservationService.Application.Events.Commands;
+using SeatReservationService.Application.Events.Queries;
 using SeatReservationService.Contract;
 using SeatReservationService.Contract.Events;
 
@@ -11,7 +13,7 @@ namespace SeatReservationService.Controllers;
 public class EventsController: ControllerBase
 {
     [HttpGet("/{eventId:guid}")]
-    public async Task<IActionResult> GetById(
+    public async Task<ActionResult<GetEventDto>> GetById(
         [FromServices] GetEventByIdHandler handler,
         [FromRoute]Guid eventId, 
         CancellationToken cancellationToken)

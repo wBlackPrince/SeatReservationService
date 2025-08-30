@@ -11,6 +11,8 @@ using SeatReservationService;
 using SeatReservationService.Application;
 using SeatReservationService.Application.Database;
 using SeatReservationService.Application.Events;
+using SeatReservationService.Application.Events.Commands;
+using SeatReservationService.Application.Events.Queries;
 using SeatReservationService.Application.Reservations;
 using SeatReservationService.Application.Seats;
 using SeatReservationService.Application.Venues;
@@ -24,6 +26,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddSingleton<IDbConnectionFactory, NpgSqlConnectionFactory >();
 
 builder.Services.AddScoped<ReservationServiceDbContext>(_ => 
+    new ReservationServiceDbContext(
+        builder.Configuration.GetConnectionString("ReservationServiceDb")!));
+builder.Services.AddScoped<IReadDbContext, ReservationServiceDbContext>(_ => 
     new ReservationServiceDbContext(
         builder.Configuration.GetConnectionString("ReservationServiceDb")!));
 builder.Services.AddScoped<ITransactionManager, TransactionManager>();
@@ -60,10 +65,10 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI(options => options.SwaggerEndpoint("/openapi/v1.json", "DevQuestions v1"));
 
     // для сидирования
-    if (args.Contains("--seeding"))
-    {
-        await app.Services.RunSeeding();
-    }
+    // if (args.Contains("--seeding"))
+    // {
+    //     await app.Services.RunSeeding();
+    // }
 }
 
 app.MapControllers();

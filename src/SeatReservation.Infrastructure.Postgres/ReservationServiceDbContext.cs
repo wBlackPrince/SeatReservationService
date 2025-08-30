@@ -8,11 +8,12 @@ using SeatReservationDomain.Reservation;
 using SeatReservationDomain.Users;
 using SeatReservationDomain.Venue;
 using SeatReservationService.Application;
+using SeatReservationService.Application.Database;
 using SeatReservationService.Application.Reservations;
 
 namespace SeatReservation.Infrastructure.Postgres;
 
-public class ReservationServiceDbContext: DbContext, IReservationServiceDbContext
+public class ReservationServiceDbContext: DbContext, IReservationServiceDbContext, IReadDbContext
 {
     private readonly string _connectionString;
 
@@ -43,18 +44,15 @@ public class ReservationServiceDbContext: DbContext, IReservationServiceDbContex
     
     public DbSet<Venue> Venues => Set<Venue>();
     public DbSet<User> Users => Set<User>();
-    
     public DbSet<Event> Events => Set<Event>();
-
     public DbSet<Seat> Seats => Set<Seat>();
-    
     public DbSet<Reservation> Reservations => Set<Reservation>();
-    
     public DbSet<ReservationSeat> ReservationSeats => Set<ReservationSeat>();
 
+    
+    public IQueryable<Event> EventsRead => Set<Event>().AsQueryable().AsNoTracking();
 
 
     private ILoggerFactory CreateLoggerFactory() =>
         LoggerFactory.Create(builder => { builder.AddConsole(); });
 }
-

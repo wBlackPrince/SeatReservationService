@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("SeatReservation.Infrastructure.Postgres")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+537c3e4ff9e25298495ab1552e8c5ae89d1890ae")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+900888812634eb680797caf627f1fecc4206c74a")]
 [assembly: System.Reflection.AssemblyProductAttribute("SeatReservation.Infrastructure.Postgres")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SeatReservation.Infrastructure.Postgres")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
