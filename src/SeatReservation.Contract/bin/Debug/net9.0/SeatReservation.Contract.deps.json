@@ -7,14 +7,62 @@
   "targets": {
     ".NETCoreApp,Version=v9.0": {
       "SeatReservation.Contract/1.0.0": {
+        "dependencies": {
+          "SeatReservation.Domain": "1.0.0"
+        },
         "runtime": {
           "SeatReservation.Contract.dll": {}
+        }
+      },
+      "CSharpFunctionalExtensions/3.6.0": {
+        "runtime": {
+          "lib/net8.0/CSharpFunctionalExtensions.dll": {
+            "assemblyVersion": "3.6.0.0",
+            "fileVersion": "3.6.0.0"
+          }
+        }
+      },
+      "SeatReservation.Domain/1.0.0": {
+        "dependencies": {
+          "CSharpFunctionalExtensions": "3.6.0",
+          "SeatReservation.Shared": "1.0.0"
+        },
+        "runtime": {
+          "SeatReservation.Domain.dll": {
+            "assemblyVersion": "1.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      },
+      "SeatReservation.Shared/1.0.0": {
+        "runtime": {
+          "SeatReservation.Shared.dll": {
+            "assemblyVersion": "1.0.0",
+            "fileVersion": "1.0.0.0"
+          }
         }
       }
     }
   },
   "libraries": {
     "SeatReservation.Contract/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "CSharpFunctionalExtensions/3.6.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-c+oWbfDKKjpOLPMxn/iPn1GL24YTJMtOiGfj0AsDKZ2v6/Mr6V7BfzfWLg6KqNRx3KRy3KcQE680SwvDTI/jcg==",
+      "path": "csharpfunctionalextensions/3.6.0",
+      "hashPath": "csharpfunctionalextensions.3.6.0.nupkg.sha512"
+    },
+    "SeatReservation.Domain/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "SeatReservation.Shared/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

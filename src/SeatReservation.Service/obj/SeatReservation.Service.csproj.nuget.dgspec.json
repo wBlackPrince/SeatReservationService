@@ -115,7 +115,11 @@
         "frameworks": {
           "net9.0": {
             "targetAlias": "net9.0",
-            "projectReferences": {}
+            "projectReferences": {
+              "D:\\asp_apps\\SeatReservationService\\src\\SeatReservation.Domain\\SeatReservation.Domain.csproj": {
+                "projectPath": "D:\\asp_apps\\SeatReservationService\\src\\SeatReservation.Domain\\SeatReservation.Domain.csproj"
+              }
+            }
           }
         },
         "warningProperties": {

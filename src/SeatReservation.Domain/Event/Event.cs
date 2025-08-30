@@ -4,8 +4,6 @@ using SeatReservationDomain.Venue;
 
 namespace SeatReservationDomain.Event;
 
-public record EventId(Guid Value);
-
 public class Event
 {
     //Ef Core
@@ -234,10 +232,22 @@ public enum EventType{
     Online
 }
 
-public interface IEventInfo{
-
+public interface IEventInfo
+{
+    string ToString();
 }
 
-public record ConcertInfo(string Perfomer): IEventInfo;
-public record ConferenceInfo(string Speaker, string Topic): IEventInfo;
-public record OnlineInfo(string Url): IEventInfo;
+public record ConcertInfo(string Perfomer) : IEventInfo
+{
+    public override string ToString() => $"Performer: {Perfomer}";
+}
+
+public record ConferenceInfo(string Speaker, string Topic) : IEventInfo
+{
+    public override string ToString() => $"Speaker: {Speaker}, Topic: {Topic}";
+}
+
+public record OnlineInfo(string Url) : IEventInfo
+{
+    public override string ToString() => $"Url: {Url}";
+}

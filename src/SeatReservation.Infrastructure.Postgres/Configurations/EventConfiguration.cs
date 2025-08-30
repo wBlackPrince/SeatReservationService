@@ -26,8 +26,6 @@ public class EventConfiguration: IEntityTypeConfiguration<Event>
         
         builder.Property(e => e.VenueId).HasColumnName("venue_id");
 
-        builder.Property(e => e.Type).HasConversion<string>().HasColumnName("type");
-
         builder.Property(e => e.Info)
             .HasConversion(new EventInfoConverter())
             .HasColumnName("info");
@@ -43,6 +41,12 @@ public class EventConfiguration: IEntityTypeConfiguration<Event>
         
         builder.Property(e => e.EndDate)
             .HasColumnName("end_date");
+        
+        builder.Property(e => e.Status)
+            .HasConversion(
+                o => o.ToString(),
+                event_status => (EventStatus)Enum.Parse(typeof(EventStatus), event_status))
+            .HasColumnName("status");
         
         builder.Property(e => e.Type)
             .HasConversion(

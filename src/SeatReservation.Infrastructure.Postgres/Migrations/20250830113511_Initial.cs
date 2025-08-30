@@ -62,7 +62,7 @@ namespace SeatReservation.Infrastructure.Postgres.Migrations
                     event_date = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     start_date = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     end_date = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    Status = table.Column<int>(type: "integer", nullable: false),
+                    status = table.Column<string>(type: "text", nullable: false),
                     type = table.Column<string>(type: "text", nullable: false),
                     info = table.Column<string>(type: "text", nullable: false)
                 },

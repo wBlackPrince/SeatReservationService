@@ -10,6 +10,16 @@ namespace SeatReservationService.Controllers;
 [Route("api/events")]
 public class EventsController: ControllerBase
 {
+    [HttpGet("/{eventId:guid}")]
+    public async Task<IActionResult> GetById(
+        [FromServices] GetEventByIdHandler handler,
+        [FromRoute]Guid eventId, 
+        CancellationToken cancellationToken)
+    {
+        var @event = await handler.Handle(new GetEventByIdRequest(eventId), cancellationToken);
+        return Ok(@event);
+    }
+    
     [HttpPost]
     public async Task<ActionResult<Guid>> Reserve(
         [FromBody] CreateConcertRequest request,

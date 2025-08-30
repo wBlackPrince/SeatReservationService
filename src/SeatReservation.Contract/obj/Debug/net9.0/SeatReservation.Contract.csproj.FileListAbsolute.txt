@@ -10,3 +10,9 @@ D:\asp_apps\SeatReservationService\src\SeatReservation.Contract\obj\Debug\net9.0
 D:\asp_apps\SeatReservationService\src\SeatReservation.Contract\obj\Debug\net9.0\refint\SeatReservation.Contract.dll
 D:\asp_apps\SeatReservationService\src\SeatReservation.Contract\obj\Debug\net9.0\SeatReservation.Contract.pdb
 D:\asp_apps\SeatReservationService\src\SeatReservation.Contract\obj\Debug\net9.0\ref\SeatReservation.Contract.dll
+D:\asp_apps\SeatReservationService\src\SeatReservation.Contract\bin\Debug\net9.0\SeatReservation.Domain.dll
+D:\asp_apps\SeatReservationService\src\SeatReservation.Contract\bin\Debug\net9.0\SeatReservation.Shared.dll
+D:\asp_apps\SeatReservationService\src\SeatReservation.Contract\bin\Debug\net9.0\SeatReservation.Domain.pdb
+D:\asp_apps\SeatReservationService\src\SeatReservation.Contract\bin\Debug\net9.0\SeatReservation.Shared.pdb
+D:\asp_apps\SeatReservationService\src\SeatReservation.Contract\obj\Debug\net9.0\SeatReservation.Contract.csproj.AssemblyReference.cache
+D:\asp_apps\SeatReservationService\src\SeatReservation.Contract\obj\Debug\net9.0\SeatRese.FE8A535F.Up2Date

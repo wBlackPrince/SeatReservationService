@@ -45,6 +45,7 @@ builder.Services.AddScoped<ReserveHandler>();
 builder.Services.AddScoped<CreateConcertHandler>();
 builder.Services.AddScoped<DeleteReservationHandler>();
 builder.Services.AddScoped<ReserveAdjacentSeatsHandler>();
+builder.Services.AddScoped<GetEventByIdHandler>();
 
 builder.Services.AddScoped<IValidator<ReserveRequest>, ReserveRequestValidator>();
 
@@ -59,10 +60,10 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI(options => options.SwaggerEndpoint("/openapi/v1.json", "DevQuestions v1"));
 
     // для сидирования
-    // if (args.Contains("--seeding"))
-    // {
-    //     await app.Services.RunSeeding();
-    // }
+    if (args.Contains("--seeding"))
+    {
+        await app.Services.RunSeeding();
+    }
 }
 
 app.MapControllers();

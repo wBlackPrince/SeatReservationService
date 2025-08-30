@@ -146,6 +146,9 @@
         }
       },
       "SeatReservation.Contract/1.0.0": {
+        "dependencies": {
+          "SeatReservation.Domain": "1.0.0"
+        },
         "runtime": {
           "SeatReservation.Contract.dll": {
             "assemblyVersion": "1.0.0",

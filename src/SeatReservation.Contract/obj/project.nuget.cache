@@ -1,8 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "6PA6RahJQXc=",
+  "dgSpecHash": "dLx3Sgw5Y3k=",
   "success": true,
   "projectFilePath": "D:\\asp_apps\\SeatReservationService\\src\\SeatReservation.Contract\\SeatReservation.Contract.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\maste\\.nuget\\packages\\csharpfunctionalextensions\\3.6.0\\csharpfunctionalextensions.3.6.0.nupkg.sha512"
+  ],
   "logs": []
 }

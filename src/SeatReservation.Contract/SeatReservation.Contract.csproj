@@ -7,4 +7,8 @@
         <RootNamespace>SeatReservationService.Contract</RootNamespace>
     </PropertyGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\SeatReservation.Domain\SeatReservation.Domain.csproj" />
+    </ItemGroup>
+
 </Project>
