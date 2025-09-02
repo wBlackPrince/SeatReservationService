@@ -1,10 +1,9 @@
 using CSharpFunctionalExtensions;
-using FluentValidation;
 using Microsoft.Extensions.Logging;
 using SeatReservation.Shared;
 using SeatReservationDomain.Reservation;
 
-namespace SeatReservationService.Application.Reservations;
+namespace SeatReservationService.Application.Reservations.Commands;
 
 public class DeleteReservationHandler
 {

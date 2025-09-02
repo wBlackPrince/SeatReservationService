@@ -9,7 +9,7 @@ using SeatReservationService.Application.Events;
 using SeatReservationService.Application.Seats;
 using SeatReservationService.Contract.Reservations;
 
-namespace SeatReservationService.Application.Reservations;
+namespace SeatReservationService.Application.Reservations.Commands;
 
 public class ReserveAdjacentSeatsHandler
 {

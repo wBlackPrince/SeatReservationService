@@ -1,6 +1,6 @@
 using System.Data;
 
-namespace SeatReservation.Infrastructure.Postgres.Database;
+namespace SeatReservationService.Application.Database;
 
 public interface IDbConnectionFactory
 {

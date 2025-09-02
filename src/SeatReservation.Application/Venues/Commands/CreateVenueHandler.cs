@@ -1,10 +1,9 @@
 using CSharpFunctionalExtensions;
 using SeatReservation.Shared;
 using SeatReservationDomain.Venue;
-using SeatReservationService.Contract;
 using SeatReservationService.Contract.venues;
 
-namespace SeatReservationService.Application.Venues;
+namespace SeatReservationService.Application.Venues.Commands;
 
 public class CreateVenueHandler
 {

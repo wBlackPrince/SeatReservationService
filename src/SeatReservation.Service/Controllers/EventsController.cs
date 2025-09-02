@@ -22,6 +22,16 @@ public class EventsController: ControllerBase
         return Ok(@event);
     }
     
+    [HttpGet("/{eventId:guid}/dapper")]
+    public async Task<ActionResult<GetEventDto>> GetByIdDapper(
+        [FromServices] GetEventByIdHandlerDapper handler,
+        [FromRoute]Guid eventId, 
+        CancellationToken cancellationToken)
+    {
+        var @event = await handler.Handle(new GetEventByIdRequest(eventId), cancellationToken);
+        return Ok(@event);
+    }
+    
     [HttpPost]
     public async Task<ActionResult<Guid>> Reserve(
         [FromBody] CreateConcertRequest request,

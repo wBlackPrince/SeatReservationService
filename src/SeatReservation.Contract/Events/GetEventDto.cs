@@ -19,4 +19,6 @@ public record GetEventDto
     public string Status { get; init; } = string.Empty;
     public string Type { get; init; } = string.Empty;
     public string Info { get; init; } = string.Empty;
+    
+    public List<ReservedSeatsDto> Seats { get; set; } = [];
 }

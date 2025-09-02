@@ -3,17 +3,15 @@ using CSharpFunctionalExtensions;
 using FluentValidation;
 using Microsoft.Extensions.Logging;
 using SeatReservation.Shared;
-using SeatReservationDomain.Event;
 using SeatReservationDomain.Reservation;
 using SeatReservationDomain.Venue;
 using SeatReservationService.Application.Database;
 using SeatReservationService.Application.Events;
 using SeatReservationService.Application.Seats;
-using SeatReservationService.Contract;
 using SeatReservationService.Contract.Reservations;
 using EventId = SeatReservationDomain.Event.EventId;
 
-namespace SeatReservationService.Application.Reservations;
+namespace SeatReservationService.Application.Reservations.Commands;
 
 public class ReserveHandler
 {

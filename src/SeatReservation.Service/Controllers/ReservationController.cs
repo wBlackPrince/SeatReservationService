@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using SeatReservationService.Application.Reservations;
+using SeatReservationService.Application.Reservations.Commands;
 using SeatReservationService.Contract;
 using SeatReservationService.Contract.Reservations;
 

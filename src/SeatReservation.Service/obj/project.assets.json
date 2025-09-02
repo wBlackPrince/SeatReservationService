@@ -1162,6 +1162,7 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v9.0",
         "dependencies": {
+          "Dapper": "2.1.66",
           "FluentValidation": "12.0.0",
           "Microsoft.EntityFrameworkCore": "9.0.7",
           "SeatReservation.Contract": "1.0.0",

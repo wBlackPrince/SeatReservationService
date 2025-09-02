@@ -14,8 +14,10 @@ using SeatReservationService.Application.Events;
 using SeatReservationService.Application.Events.Commands;
 using SeatReservationService.Application.Events.Queries;
 using SeatReservationService.Application.Reservations;
+using SeatReservationService.Application.Reservations.Commands;
 using SeatReservationService.Application.Seats;
 using SeatReservationService.Application.Venues;
+using SeatReservationService.Application.Venues.Commands;
 using SeatReservationService.Contract;
 using SeatReservationService.Contract.Reservations;
 using EventId = SeatReservationDomain.Event.EventId;
@@ -24,6 +26,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 
 builder.Services.AddSingleton<IDbConnectionFactory, NpgSqlConnectionFactory >();
+Dapper.DefaultTypeMap.MatchNamesWithUnderscores = true;
 
 builder.Services.AddScoped<ReservationServiceDbContext>(_ => 
     new ReservationServiceDbContext(
@@ -51,6 +54,7 @@ builder.Services.AddScoped<CreateConcertHandler>();
 builder.Services.AddScoped<DeleteReservationHandler>();
 builder.Services.AddScoped<ReserveAdjacentSeatsHandler>();
 builder.Services.AddScoped<GetEventByIdHandler>();
+builder.Services.AddScoped<GetEventByIdHandlerDapper>();
 
 builder.Services.AddScoped<IValidator<ReserveRequest>, ReserveRequestValidator>();
 
