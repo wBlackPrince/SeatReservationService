@@ -31,7 +31,7 @@ public class Reservation
                 new ReservationSeatId(Guid.NewGuid()), 
                 this, 
                 new SeatId(seatId), 
-                eventId,
+                new EventId(eventId),
                 CreatedAt))
             .ToList();
         _seats = reservedSeats;

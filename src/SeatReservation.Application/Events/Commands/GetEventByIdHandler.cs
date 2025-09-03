@@ -37,18 +37,23 @@ public class GetEventByIdHandler
                 Status = e.Status.ToString(),
                 Type = e.Type.ToString(),
                 Info = e.Info.ToString(),
-                Seats = _readDbContext.SeatsRead
-                    .Where(s => s.VenueId == e.VenueId)
-                    .OrderBy(s => s.RowNumber)
-                    .ThenBy(s => s.SeatNumber)
-                    .Select(s => new ReservedSeatsDto
-                    {
-                        Id = s.Id.Value, 
-                        RowNumber = s.RowNumber, 
-                        SeatNumber = s.SeatNumber, 
-                        VenueId = s.VenueId.Value
-                    })
-                    .ToList(),
+                Seats = (from s in _readDbContext.SeatsRead
+                        where s.VenueId == e.VenueId
+                        //join ev in _readDbContext.EventsRead on s.VenueId equals ev.VenueId
+                        join rs in _readDbContext.ReservationSeatsRead on 
+                            new {SeatId = s.Id, EventId = e.Id} equals 
+                            new {SeatId = rs.SeatId, EventId = rs.EventId} into reservations
+                        from r in reservations.DefaultIfEmpty()
+                        where e.Id == new EventId(query.EventId)
+                        orderby s.RowNumber, s.SeatNumber
+                        select new ReservedSeatsDto
+                        {
+                            Id = s.Id.Value,
+                            RowNumber = s.RowNumber,
+                            SeatNumber = s.SeatNumber,
+                            VenueId = s.VenueId.Value,
+                            IsAvailable = r == null
+                        }).ToList()
             })
             .FirstOrDefaultAsync(cancellationToken);
 
@@ -56,7 +61,7 @@ public class GetEventByIdHandler
         {
             return null;
         }
-
+        
         return eventDto;
     }
 }

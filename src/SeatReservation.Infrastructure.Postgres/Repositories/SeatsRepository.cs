@@ -40,7 +40,7 @@ public class SeatsRepository : ISeatsRepository
             .Where(s => rowNumber.HasValue && s.RowNumber == rowNumber)
             .Where(s => !_dbContext.ReservationSeats
                 .Any(rs => rs.SeatId == s.Id &&
-                           rs.EventId == eventId.Value &&
+                           rs.EventId == eventId&&
                            (rs.Reservation.Status == ReservationStatus.Confirmed) ||
                            (rs.Reservation.Status == ReservationStatus.Pending)
                 )
