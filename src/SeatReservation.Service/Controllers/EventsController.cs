@@ -12,6 +12,16 @@ namespace SeatReservationService.Controllers;
 [Route("api/events")]
 public class EventsController: ControllerBase
 {
+    // [HttpGet("/{eventId:guid}")]
+    // public async Task<ActionResult<GetEventDto>> GetById(
+    //     [FromServices] GetEventByIdHandler handler,
+    //     [FromRoute]Guid eventId, 
+    //     CancellationToken cancellationToken)
+    // {
+    //     var @event = await handler.Handle(new GetEventByIdRequest(eventId), cancellationToken);
+    //     return Ok(@event);
+    // }
+    
     [HttpGet("/{eventId:guid}")]
     public async Task<ActionResult<GetEventDto>> GetById(
         [FromServices] GetEventByIdHandler handler,
@@ -22,15 +32,25 @@ public class EventsController: ControllerBase
         return Ok(@event);
     }
     
-    [HttpGet("/{eventId:guid}/dapper")]
-    public async Task<ActionResult<GetEventDto>> GetByIdDapper(
-        [FromServices] GetEventByIdHandlerDapper handler,
-        [FromRoute]Guid eventId, 
+    [HttpGet]
+    public async Task<ActionResult<GetEventsDto>> GetEvents(
+        [FromQuery] GetEventsRequest request,
+        [FromServices] GetEventsHandler handler,
         CancellationToken cancellationToken)
     {
-        var @event = await handler.Handle(new GetEventByIdRequest(eventId), cancellationToken);
-        return Ok(@event);
+        var @events = await handler.Handle(request, cancellationToken);
+        return Ok(@events);
     }
+    
+    // [HttpGet]
+    // public async Task<ActionResult<GetEventDto>> GetEventsDapper(
+    //     [FromServices] GetEventByIdHandlerDapper handler,
+    //     [FromRoute]Guid eventId, 
+    //     CancellationToken cancellationToken)
+    // {
+    //     var @event = await handler.Handle(new GetEventByIdRequest(eventId), cancellationToken);
+    //     return Ok(@event);
+    // }
     
     [HttpPost]
     public async Task<ActionResult<Guid>> Reserve(

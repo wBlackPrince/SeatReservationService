@@ -145,7 +145,8 @@ public class ReservationSeeder : ISeeder
         };
         var venueNames = new[]
         {
-            "Центральный зал", "Концертный холл", "Конференц-зал", "Театральный зал", "Большой зал", "Малый зал", "Летняя площадка", "Крытый павильон",
+            "Центральный зал", "Концертный холл", "Конференц-зал", "Театральный зал", "Большой зал", "Малый зал",
+            "Летняя площадка", "Крытый павильон",
             "Амфитеатр", "Арена"
         };
 
@@ -333,11 +334,8 @@ public class ReservationSeeder : ISeeder
                 var seatsInReservation = Math.Min(_random.Next(1, 5), seatsToBook.Length - i);
                 var reservationSeats = seatsToBook.Skip(i).Take(seatsInReservation).ToList();
 
-                var reservation = Reservation.Create(
-                    eventInfo.Id, 
-                    userIds[_random.Next(userIds.Count)], 
-                    reservationSeats);
-                
+                var reservation =
+                    Reservation.Create(eventInfo.Id, userIds[_random.Next(userIds.Count)], reservationSeats);
                 if (reservation.IsSuccess)
                 {
                     reservations.Add(reservation.Value);

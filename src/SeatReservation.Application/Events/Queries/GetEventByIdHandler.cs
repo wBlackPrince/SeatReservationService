@@ -1,11 +1,11 @@
 using Dapper;
 using Microsoft.EntityFrameworkCore;
 using SeatReservationDomain.Event;
-using SeatReservationDomain.Venue;
+using SeatReservationDomain.Reservation;
 using SeatReservationService.Application.Database;
 using SeatReservationService.Contract.Events;
 
-namespace SeatReservationService.Application.Events.Commands;
+namespace SeatReservationService.Application.Events.Queries;
 
 public class GetEventByIdHandler
 {
@@ -53,7 +53,14 @@ public class GetEventByIdHandler
                             SeatNumber = s.SeatNumber,
                             VenueId = s.VenueId.Value,
                             IsAvailable = r == null
-                        }).ToList()
+                        }).ToList(),
+                TotalSeats = _readDbContext.SeatsRead.Count(s => s.VenueId == e.VenueId),
+                ReservedSeats = _readDbContext.ReservationSeatsRead.Count(rs => rs.EventId == e.Id),
+                AvailableSeats = _readDbContext.SeatsRead.Count(s => s.VenueId == e.VenueId) -
+                                 _readDbContext.ReservationSeatsRead.Count(rs => rs.EventId == e.Id &&
+                                     (rs.Reservation.Status == ReservationStatus.Confirmed ||
+                                      rs.Reservation.Status == ReservationStatus.Pending))
+                
             })
             .FirstOrDefaultAsync(cancellationToken);
 
@@ -98,6 +105,9 @@ public class GetEventByIdHandlerDapper
                 e.info,
                 ed.capacity,
                 ed.description,
+                COUNT(*) over() as total_seats,
+                COUNT(rs.seat_id) over() as reserved_seats,
+                COUNT(*) over() - COUNT(rs.seat_id) over() as available_seats,
                 s.id,
                 s.venue_id,
                 s.row_number,

@@ -1,6 +1,6 @@
 namespace SeatReservationService.Contract.Events;
 
-public record GetEventDto
+public record EventDto()
 {
     public Guid Id { get; init; }
     public int Capacity { get; init; }
@@ -14,8 +14,6 @@ public record GetEventDto
     public string Status { get; init; } = string.Empty;
     public string Type { get; init; } = string.Empty;
     public string Info { get; init; } = string.Empty;
-    
-    public List<ReservedSeatsDto> Seats { get; set; } = [];
     
     public int TotalSeats { get; init; }
     

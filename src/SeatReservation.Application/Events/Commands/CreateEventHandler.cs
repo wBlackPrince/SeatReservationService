@@ -5,7 +5,7 @@ using SeatReservationDomain.Event;
 using SeatReservationDomain.Venue;
 using SeatReservationService.Contract.Events;
 
-namespace SeatReservationService.Application.Events.Queries;
+namespace SeatReservationService.Application.Events.Commands;
 
 public class CreateConcertHandler
 {

@@ -13,7 +13,7 @@ using SeatReservation.Infrastructure.Postgres;
 namespace SeatReservation.Infrastructure.Postgres.Migrations
 {
     [DbContext(typeof(ReservationServiceDbContext))]
-    [Migration("20250830113511_Initial")]
+    [Migration("20250907133127_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
