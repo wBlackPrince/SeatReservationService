@@ -42,15 +42,16 @@ public class EventsController: ControllerBase
         return Ok(@events);
     }
     
-    // [HttpGet]
-    // public async Task<ActionResult<GetEventDto>> GetEventsDapper(
-    //     [FromServices] GetEventByIdHandlerDapper handler,
-    //     [FromRoute]Guid eventId, 
-    //     CancellationToken cancellationToken)
-    // {
-    //     var @event = await handler.Handle(new GetEventByIdRequest(eventId), cancellationToken);
-    //     return Ok(@event);
-    // }
+    [HttpGet("dapper")]
+    public async Task<ActionResult<GetEventsDto>> GetEventsDapper(
+        [FromQuery] GetEventsRequest request,
+        [FromServices] GetEventsHandlerDapper handler,
+        CancellationToken cancellationToken)
+    {
+        var @events = await handler.Handle(request, cancellationToken);
+        return Ok(@events);
+    }
+
     
     [HttpPost]
     public async Task<ActionResult<Guid>> Reserve(

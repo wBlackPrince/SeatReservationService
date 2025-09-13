@@ -13,8 +13,15 @@ public class ReservationConfiguration: IEntityTypeConfiguration<Reservation>
         builder.HasKey(v => v.Id).HasName("pk_resevations");
         
         builder.Property(v => v.Id)
-            .HasConversion(v => v.Value, id => new ReservationId(id));
+            .HasConversion(v => v.Value, id => new ReservationId(id))
+            .HasColumnName("id");
         
+        builder.Property(r => r.Status)
+            .HasConversion(
+                r => r.ToString(),
+                resStatus => (ReservationStatus)Enum.Parse(typeof(ReservationStatus), resStatus))
+            .HasColumnName("status");
+
         // builder
         //     .HasMany(r => r.ReservedSeats)
         //     .WithOne(rs => rs.Reservation)

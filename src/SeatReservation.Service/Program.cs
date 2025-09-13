@@ -55,6 +55,7 @@ builder.Services.AddScoped<DeleteReservationHandler>();
 builder.Services.AddScoped<ReserveAdjacentSeatsHandler>();
 builder.Services.AddScoped<GetEventByIdHandler>();
 builder.Services.AddScoped<GetEventsHandler>();
+builder.Services.AddScoped<GetEventsHandlerDapper>();
 
 builder.Services.AddScoped<IValidator<ReserveRequest>, ReserveRequestValidator>();
 

@@ -15,15 +15,15 @@ namespace SeatReservation.Infrastructure.Postgres.Migrations
                 name: "reservations",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    id = table.Column<Guid>(type: "uuid", nullable: false),
                     EventId = table.Column<Guid>(type: "uuid", nullable: false),
                     UserId = table.Column<Guid>(type: "uuid", nullable: false),
-                    Status = table.Column<int>(type: "integer", nullable: false),
+                    status = table.Column<string>(type: "text", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("pk_resevations", x => x.Id);
+                    table.PrimaryKey("pk_resevations", x => x.id);
                 });
 
             migrationBuilder.CreateTable(
@@ -136,7 +136,7 @@ namespace SeatReservation.Infrastructure.Postgres.Migrations
                         name: "FK_reservation_seats_reservations_reservation_id",
                         column: x => x.reservation_id,
                         principalTable: "reservations",
-                        principalColumn: "Id",
+                        principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_reservation_seats_seats_seat_id",

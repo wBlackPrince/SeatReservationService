@@ -1,3 +1,5 @@
+using System.Data;
+using Dapper;
 using Microsoft.EntityFrameworkCore;
 using SeatReservationDomain.Event;
 using SeatReservationDomain.Reservation;
@@ -93,5 +95,128 @@ public class GetEventsHandler
             .ToListAsync(cancellationToken);
 
         return new GetEventsDto(events, totalCount);
+    }
+}
+
+
+
+public class GetEventsHandlerDapper
+{
+    private readonly IDbConnectionFactory _dbConnectionFactory;
+
+    public GetEventsHandlerDapper(IDbConnectionFactory dbConnectionFactory)
+    {
+        _dbConnectionFactory = dbConnectionFactory;
+    }
+
+    public async Task<GetEventsDto> Handle(
+        GetEventsRequest query, 
+        CancellationToken cancellationToken)
+    {
+        var connection = await _dbConnectionFactory.CreateConnectionAsync(cancellationToken);
+
+        var parameters = new DynamicParameters();
+        
+        List<string> conditions = new List<string>();
+        
+        
+        if (!string.IsNullOrWhiteSpace(query.Search))
+        {
+            parameters.Add("search", query.Search, DbType.String);
+            conditions.Add("e.name ILIKE '%' || @search || '%'");
+        }
+        
+        if (!string.IsNullOrWhiteSpace(query.EventType))
+        {
+            parameters.Add("type", query.EventType, DbType.String);
+            conditions.Add("e.type = @type");
+        }
+        
+        if (!string.IsNullOrWhiteSpace(query.Status))
+        {
+            parameters.Add("status", query.Status, DbType.String);
+            conditions.Add("e.status = @status");
+        }
+        
+        if (query.DateFrom is not null)
+        {
+            parameters.Add("start_date", query.DateFrom?.ToUniversalTime(), DbType.DateTime);
+            conditions.Add("e.start_date >= @start_date");
+        }
+        
+        if (query.DateFrom is not null)
+        {
+            parameters.Add("end_date", query.DateTo?.ToUniversalTime(), DbType.DateTime);
+            conditions.Add("e.end_date <= @end_date");
+        }
+        
+        if (query.VenueId is not null)
+        {
+            parameters.Add("venue_id", query.VenueId, DbType.Guid);
+            conditions.Add("e.venue_id = @venue_id");
+        }
+        
+        if (query.MinAvailableSeats.HasValue)
+        {
+            conditions.Add("""
+                           ((SELECT COUNT(*) FROM seats s WHERE s.venue_id = e.venue_id) - 
+                            COALESCE((SELECT COUNT(*)
+                                      FROM reservation_seats rs
+                                               JOIN reservations r ON rs.reservation_id = r.id
+                                      WHERE rs.event_id = e.id
+                                        AND r.status IN ('Confirmed', 'Pending')), 0)) >= @min_available_seats
+                           """);
+            parameters.Add("min_available_seats", query.MinAvailableSeats.Value);
+        }
+        
+        parameters.Add("offset", (query.PaginationRequest.Page - 1) * query.PaginationRequest.PageSize, DbType.Int32);
+        parameters.Add("limit", query.PaginationRequest.PageSize, DbType.Int32);
+
+        var whereClause = conditions.Count > 0 ? "WHERE " + string.Join(" AND ", conditions) : "";
+
+        long? totalCount = null;
+        
+        var events = await connection.QueryAsync<EventDto, long, EventDto>(
+            $"""
+            SELECT
+                e.id,
+                e.venue_id,
+                e.name,
+                e.event_date,
+                e.start_date,
+                e.end_date,
+                e.status,
+                e.type,
+                e.info,
+                ed.capacity,
+                ed.description,
+                
+                (select count(*) from seats as s 
+                    where s.venue_id = e.venue_id ) AS total_seats,
+                
+                (select count(*) from reservation_seats as rs JOIN reservations as r ON rs.reservation_id = r.id
+                    where rs.event_id = e.id 
+                      and r.status in ('Pending', 'Confirmed')) AS reserved_seats,
+            
+                (select count(*) from seats as s 
+                    where s.venue_id = e.venue_id ) - (select count(*) from reservation_seats as rs JOIN reservations as r ON rs.reservation_id = r.id
+                    where rs.event_id = e.id 
+                      and r.status in ('Pending', 'Confirmed')) AS available_seats,
+                count(*) over () as total_count
+            FROM events AS e JOIN event_details as ed ON e.id = ed.event_id
+            {whereClause}
+            LIMIT @limit
+            OFFSET @offset
+            """,
+            splitOn: "total_count",
+            map: (ed, tc) =>
+            {
+                totalCount ??= tc;
+
+                return ed;
+            },
+            param: parameters);
+        
+        return new GetEventsDto(events.ToList(), totalCount ?? 0);
     }
 }
