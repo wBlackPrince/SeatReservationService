@@ -1,4 +1,5 @@
 using System.Data;
+using System.Linq.Expressions;
 using Dapper;
 using Microsoft.EntityFrameworkCore;
 using SeatReservationDomain.Event;
@@ -61,6 +62,23 @@ public class GetEventsHandler
                      rs.Reservation.Status == ReservationStatus.Pending))
                 >= query.MinAvailableSeats.Value);
         }
+
+        Expression<Func<Event, object>> keySelector = query?.SortBy?.ToLower() switch
+        {
+            "name" => e => e.Name,
+            "date" => e => e.EventDate,
+            "status" => e => e.Status,
+            "type" => e => e.Type,
+            _ => e => e.EventDate,
+        };
+
+
+       eventsQuery = (query?.SortDirection == "asc") ? 
+                    eventsQuery.OrderBy(keySelector) :
+                    eventsQuery.OrderByDescending(keySelector);
+       
+        
+        
         
         var totalCount = await eventsQuery.LongCountAsync();
         
@@ -91,7 +109,8 @@ public class GetEventsHandler
                                  _readDbContext.ReservationSeatsRead.Count(
                                      rs => rs.EventId == e.Id && (rs.Reservation.Status == ReservationStatus.Confirmed ||
                                                                   rs.Reservation.Status == ReservationStatus.Pending)),
-            })
+                PopularityPercentage = Math.Round(
+                    (double)_readDbContext.ReservationSeatsRead.Count(rs => rs.EventId == e.Id) / _readDbContext.SeatsRead.Count(s => s.VenueId == e.VenueId) * 100.0, 2)})
             .ToListAsync(cancellationToken);
 
         return new GetEventsDto(events, totalCount);
@@ -169,42 +188,75 @@ public class GetEventsHandlerDapper
             parameters.Add("min_available_seats", query.MinAvailableSeats.Value);
         }
         
+        
         parameters.Add("offset", (query.PaginationRequest.Page - 1) * query.PaginationRequest.PageSize, DbType.Int32);
         parameters.Add("limit", query.PaginationRequest.PageSize, DbType.Int32);
 
         var whereClause = conditions.Count > 0 ? "WHERE " + string.Join(" AND ", conditions) : "";
+        
+        var direction = (query?.SortDirection?.ToLower() == "desc" ? "DESC" : "ASC");
+
+        var orderByField = query?.SortBy switch
+        {
+            "date" => "es.event_date",
+            "name" => "es.name",
+            "status" => "es.status",
+            "type" => "es.type",
+            "popularity" => "popularity",
+            _ => "es.event_date",
+        };
+        
+        var orderByClause = $"ORDER BY {orderByField} {direction}";
 
         long? totalCount = null;
         
         var events = await connection.QueryAsync<EventDto, long, EventDto>(
             $"""
-            SELECT
-                e.id,
-                e.venue_id,
-                e.name,
-                e.event_date,
-                e.start_date,
-                e.end_date,
-                e.status,
-                e.type,
-                e.info,
-                ed.capacity,
-                ed.description,
-                
-                (select count(*) from seats as s 
-                    where s.venue_id = e.venue_id ) AS total_seats,
-                
-                (select count(*) from reservation_seats as rs JOIN reservations as r ON rs.reservation_id = r.id
-                    where rs.event_id = e.id 
-                      and r.status in ('Pending', 'Confirmed')) AS reserved_seats,
+            WITH event_stats AS (
+                SELECT
+                    e.id,
+                    e.venue_id,
+                    e.name,
+                    e.event_date,
+                    e.start_date,
+                    e.end_date,
+                    e.status,
+                    e.type,
+                    e.info,
+                    ed.capacity,
+                    ed.description,
             
-                (select count(*) from seats as s 
-                    where s.venue_id = e.venue_id ) - (select count(*) from reservation_seats as rs JOIN reservations as r ON rs.reservation_id = r.id
-                    where rs.event_id = e.id 
-                      and r.status in ('Pending', 'Confirmed')) AS available_seats,
-                count(*) over () as total_count
-            FROM events AS e JOIN event_details as ed ON e.id = ed.event_id
-            {whereClause}
+                    (select count(*) from seats as s
+                     where s.venue_id = e.venue_id ) AS total_seats,
+            
+                    (select count(*) from reservation_seats as rs JOIN reservations as r ON rs.reservation_id = r.id
+                     where rs.event_id = e.id
+                       and r.status in ('Pending', 'Confirmed')) AS reserved_seats,
+            
+                    count(*) over () as total_count
+                FROM events AS e JOIN event_details as ed ON e.id = ed.event_id
+                {whereClause}
+            )
+            
+            select
+                es.id,
+                es.venue_id,
+                es.name,
+                es.event_date,
+                es.start_date,
+                es.end_date,
+                es.status,
+                es.type,
+                es.info,
+                es.capacity,
+                es.description,
+                es.total_seats,
+                es.reserved_seats,
+                es.total_seats - es.reserved_seats as available_seats,
+                round(es.reserved_seats::decimal / es.total_seats * 100, 2) as popularity,
+                es.total_count
+            from event_stats as es
+            {orderByClause}
             LIMIT @limit
             OFFSET @offset
             """,
