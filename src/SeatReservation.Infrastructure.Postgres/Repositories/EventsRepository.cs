@@ -4,7 +4,6 @@ using Microsoft.Extensions.Logging;
 using SeatReservation.Shared;
 using SeatReservationDomain.Event;
 using SeatReservationService.Application.Events;
-using EventId = SeatReservationDomain.Event.EventId;
 
 namespace SeatReservation.Infrastructure.Postgres.Repositories;
 
@@ -23,13 +22,13 @@ public class EventsRepository : IEventsRepository
     public async Task<Result<Guid, Error>> Create(Event @event, CancellationToken cancellationToken){
         await _dbContext.Events.AddAsync(@event, cancellationToken);
         
-        return @event.Id.Value;
+        return @event.Id;
     }
     
-    public async Task<Result<Event, Error>> GetByIdWithLock(EventId eventId, CancellationToken cancellationToken)
+    public async Task<Result<Event, Error>> GetByIdWithLock(Guid eventId, CancellationToken cancellationToken)
     {
         var @event = await _dbContext.Events
-            .FromSql($"SELECT * from events WHERE id = {eventId.Value} FOR UPDATE")
+            .FromSql($"SELECT * from events WHERE id = {eventId} FOR UPDATE")
             .Include(e => e.Details)
             .FirstOrDefaultAsync(e => e.Id == eventId, cancellationToken);
 
@@ -42,13 +41,13 @@ public class EventsRepository : IEventsRepository
     }
     
     public async Task<Result<Event, Error>> GetAvailableForReservation(
-        EventId eventId, 
+        Guid eventId, 
         CancellationToken cancellationToken)
     {
         var @event = await _dbContext.Events
             .FirstOrDefaultAsync(
                 e => (e.Id == eventId) && 
-                            (e.StartDate >= DateTime.UtcNow) && 
+                            (e.Dates.StartDate >= DateTime.UtcNow) && 
                             (e.Status == EventStatus.Planned), 
                 cancellationToken);
 

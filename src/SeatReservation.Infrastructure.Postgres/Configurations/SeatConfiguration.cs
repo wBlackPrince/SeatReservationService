@@ -12,12 +12,12 @@ public class SeatConfiguration: IEntityTypeConfiguration<Seat>
         
         builder.HasKey(v => v.Id).HasName("pk_seats");
         
-        builder.Property(v => v.Id)
-            .HasConversion(v => v.Value, id => new SeatId(id))
+        builder
+            .Property(v => v.Id)
             .HasColumnName("id");
         
-        builder.Property(v => v.VenueId)
-            .HasConversion(v => v.Value, id => new VenueId(id))
+        builder
+            .Property(v => v.VenueId)
             .HasColumnName("venue_id");
 
         builder.Property(v => v.RowNumber)

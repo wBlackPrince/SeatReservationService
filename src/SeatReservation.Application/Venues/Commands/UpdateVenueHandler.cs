@@ -19,7 +19,7 @@ public class UpdateVenueHandler
         UpdateVenueRequest request,
         CancellationToken cancellationToken)
     {
-        var venueId = new VenueId(request.VenueId);
+        var venueId = request.VenueId;
         
         var venue = Venue.Create(
             request.Prefix,

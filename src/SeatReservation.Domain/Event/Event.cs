@@ -9,17 +9,14 @@ public class Event
     //Ef Core
     private Event()
     {
-        
     }
     
     private Event(
-        EventId id, 
-        VenueId venueId, 
+        Guid id, 
+        Guid venueId, 
         EventDetails details, 
-        string name, 
-        DateTime eventDate,
-        DateTime startDate,
-        DateTime endDate,
+        EventName name, 
+        EventDates dates,
         IEventInfo info,
         EventType eventType)
     {
@@ -27,25 +24,20 @@ public class Event
         Details = details;
         VenueId = venueId;
         Name = name;
-        EventDate = eventDate;
-        StartDate = startDate;
-        EndDate = endDate;
+        Dates = dates;
         Status = EventStatus.Planned;
         Info = info;
         Type = eventType;
     }
     
-    public EventId Id { get; private set; }
+    public Guid Id { get; private set; }
     
     public EventDetails Details { get; set; }
     
-    public VenueId VenueId { get; private set; }
-    public string Name { get; private set; }
-    public DateTime EventDate { get; private set; }
+    public Guid VenueId { get; private set; }
+    public EventName Name { get; private set; }
     
-    public DateTime StartDate { get; private set; }
-    
-    public DateTime EndDate { get; private set; }
+    public EventDates Dates { get; private set; }
     
     public EventStatus Status { get; private set; }
     
@@ -55,48 +47,11 @@ public class Event
 
     public bool IsAvailableForReservation(int capacitySum) 
         => Status == EventStatus.Planned && 
-           StartDate > DateTime.Now &&
-           capacitySum <= Details.Capacity;
-
-
-    private static Result<EventDetails, Error> Validate(
-        string name,
-        string description,
-        int capacity,
-        DateTime eventDate,
-        DateTime startDate,
-        DateTime endDate)
-    {
-        if (string.IsNullOrEmpty(name))
-        {
-            return Error.Validation("event.name", "Event name cannot be empty");
-        }
-
-        if (eventDate < DateTime.UtcNow)
-        {
-            return Error.Validation("event.date", "Event date cannot be in the past");
-        }
-
-        if (startDate >= endDate || startDate <= DateTime.UtcNow || endDate < DateTime.UtcNow)
-        {
-            return Error.Validation("event.date", "Time of event is incorrect");
-        }
-
-        if (capacity <= 0)
-        {
-            return Error.Validation("capacity", "Capacity must be greater than 0");
-        }
-
-        if (string.IsNullOrWhiteSpace(description))
-        {
-            return Error.Validation("description", "Description cannot be empty");
-        }
-        
-        return new EventDetails(capacity, description);
-    }
+           Dates.StartDate > DateTime.Now &&
+           capacitySum <= Details.Capacity.Value;
 
     public static Result<Event, Error> CreateConcert(
-        VenueId venueId,
+        Guid venueId,
         string name,
         DateTime eventDate,
         DateTime startDate,
@@ -105,28 +60,39 @@ public class Event
         string description,
         string perfomer)
     {
-        var detailsResult = Validate(name, description, capacity, eventDate, startDate, endDate);
+        var detailsResult = EventDetails.Validate(description, capacity);
 
         if (detailsResult.IsFailure)
         {
             return detailsResult.Error;
         }
 
+        
         if (string.IsNullOrEmpty(perfomer))
         {
             return Error.Validation("perfomer", "Perfomer cannot be empty");
         }
         
         var concertInfo = new ConcertInfo(perfomer);
+        
+        Result<EventName, Error> nameResult = EventName.Create(name);
+
+        if (nameResult.IsFailure)
+            return nameResult.Error;
+        
+        Result<EventDates, Error> eventDatesResult = EventDates.Create(eventDate, startDate, endDate);
+
+        if (eventDatesResult.IsFailure)
+            return eventDatesResult.Error;
+        
+        
 
         return new Event(
-            new EventId(Guid.NewGuid()),
+            Guid.NewGuid(),
             venueId,
             detailsResult.Value,
-            name,
-            eventDate,
-            startDate,
-            endDate,
+            nameResult.Value,
+            eventDatesResult.Value,
             concertInfo,
             EventType.Concert
         );
@@ -135,7 +101,7 @@ public class Event
     
     
     public static Result<Event, Error> CreateConference(
-        VenueId venueId,
+        Guid venueId,
         string name,
         DateTime eventDate,
         DateTime startDate,
@@ -145,7 +111,7 @@ public class Event
         string speaker,
         string topic)
     {
-        var detailsResult = Validate(name, description, capacity, eventDate, startDate, endDate);
+        var detailsResult = EventDetails.Validate(description, capacity);
 
         if (detailsResult.IsFailure)
         {
@@ -163,22 +129,34 @@ public class Event
         }
         
         var conferenceInfo = new ConferenceInfo(speaker, topic);
+        
+        
+        
+        Result<EventName, Error> nameResult = EventName.Create(name);
 
+        if (nameResult.IsFailure)
+            return nameResult.Error;
+        
+        Result<EventDates, Error> eventDatesResult = EventDates.Create(eventDate, startDate, endDate);
+
+        if (eventDatesResult.IsFailure)
+            return eventDatesResult.Error;
+
+        
+        
         return new Event(
-            new EventId(Guid.NewGuid()),
+            Guid.NewGuid(),
             venueId,
             detailsResult.Value,
-            name,
-            eventDate,
-            startDate,
-            endDate,
+            nameResult.Value,
+            eventDatesResult.Value,
             conferenceInfo,
-            EventType.Concert
+            EventType.Conference
         );
     }
     
     public static Result<Event, Error> CreateOnline(
-        VenueId venueId,
+        Guid venueId,
         string name,
         DateTime eventDate,
         DateTime startDate,
@@ -187,7 +165,7 @@ public class Event
         string description,
         string url)
     {
-        var detailsResult = Validate(name, description, capacity, eventDate, startDate, endDate);
+        var detailsResult = EventDetails.Validate(description, capacity);
 
         if (detailsResult.IsFailure)
         {
@@ -201,17 +179,28 @@ public class Event
 
         
         var conferenceInfo = new OnlineInfo(url);
+        
+        
+        Result<EventName, Error> nameResult = EventName.Create(name);
+
+        if (nameResult.IsFailure)
+            return nameResult.Error;
+        
+        Result<EventDates, Error> eventDatesResult = EventDates.Create(eventDate, startDate, endDate);
+
+        if (eventDatesResult.IsFailure)
+            return eventDatesResult.Error;
+        
+        
 
         return new Event(
-            new EventId(Guid.NewGuid()),
+            Guid.NewGuid(),
             venueId,
             detailsResult.Value,
-            name,
-            eventDate,
-            startDate,
-            endDate,
+            nameResult.Value,
+            eventDatesResult.Value,
             conferenceInfo,
-            EventType.Concert
+            EventType.Online
         );
 
     }

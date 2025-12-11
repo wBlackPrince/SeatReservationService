@@ -3,9 +3,6 @@ using SeatReservationDomain.Venue;
 
 namespace SeatReservationDomain.Reservation;
 
-
-public record ReservationSeatId(Guid Value);
-
 public class ReservationSeat
 {
     // Ef Core
@@ -14,10 +11,10 @@ public class ReservationSeat
     }
     
     public ReservationSeat(
-        ReservationSeatId id, 
+        Guid id, 
         Reservation reservation, 
-        SeatId seatId, 
-        EventId eventId,
+        Guid seatId, 
+        Guid eventId,
         DateTime reservationDate)
     {
         Id = id;
@@ -28,11 +25,11 @@ public class ReservationSeat
     }
     
     
-    public ReservationSeatId Id { get; private set; }
+    public Guid Id { get; private set; }
     public Reservation Reservation { get; private set; }
-    public SeatId SeatId { get; private set; }
+    public Guid SeatId { get; private set; }
     
-    public EventId EventId { get; private set; }
+    public Guid EventId { get; private set; }
     
     public DateTime ReservationAt { get; private set; }
 }

@@ -13,9 +13,10 @@ public class ReservationSeatConfiguration: IEntityTypeConfiguration<ReservationS
         builder.ToTable("reservation_seats");
         
         builder.HasKey(v => v.Id).HasName("pk_reservation_seats");
-        
-        builder.Property(v => v.Id)
-            .HasConversion(v => v.Value, id => new ReservationSeatId(id));
+
+        builder
+            .Property(v => v.Id)
+            .HasColumnName("id");
         
         builder
             .HasOne(rs => rs.Reservation)
@@ -33,13 +34,11 @@ public class ReservationSeatConfiguration: IEntityTypeConfiguration<ReservationS
 
         builder
             .Property(rs => rs.SeatId)
-            .HasConversion(r => r.Value, id => new SeatId(id))
             .IsRequired()
             .HasColumnName("seat_id");
         
         builder
             .Property(rs => rs.EventId)
-            .HasConversion(e => e.Value, id => new EventId(id))
             .IsRequired()
             .HasColumnName("event_id");
         

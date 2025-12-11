@@ -1,10 +1,6 @@
-using System.Text.Json;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using SeatReservation.Shared;
-using SeatReservationDomain;
 using SeatReservationDomain.Users;
-using SeatReservationDomain.Venue;
 
 namespace SeatReservation.Infrastructure.Postgres.Configurations;
 
@@ -15,34 +11,46 @@ public class UserConfiguration: IEntityTypeConfiguration<User>
         builder.ToTable("users");
         
         builder.HasKey(v => v.Id).HasName("pk_users");
-        
-        builder.Property(v => v.Id)
-            .HasColumnName("id");
 
-        
-        
+        builder
+            .Property(u => u.Id)
+            .HasColumnName("id");
+            
         builder.OwnsOne(u => u.Details, db =>
         {
             db.ToJson("details");
 
             db.OwnsMany(d => d.Socials, sb =>
             {
-                sb.Property(s => s.Link)
-                    .IsRequired()
-                    .HasMaxLength(LengthConstants.Length500)
-                    .HasColumnName("link");
-            
-                sb.Property(s => s.Name)
-                    .IsRequired()
-                    .HasMaxLength(LengthConstants.Length500)
-                    .HasColumnName("name");
+
+                sb.OwnsOne(s => s.Name, sbb =>
+                {
+                    sbb
+                        .Property(ss => ss.Value)
+                        .IsRequired()
+                        .HasMaxLength(SocialNetworkName.MaxLength)
+                        .HasColumnName("name");
+                });
+                
+                sb.OwnsOne(s => s.Link, sbb =>
+                {
+                    sbb
+                        .Property(ss => ss.Value)
+                        .IsRequired()
+                        .HasMaxLength(SocialNetworkLink.MaxLength)
+                        .HasColumnName("link");
+                });
             });
 
-            db.Property(d => d.Description)
-                .HasColumnName("description");
-            
-            db.Property(d => d.FIO)
-                .HasColumnName("foi");
+            db.OwnsOne(d => d.Description, sb =>
+            {
+                sb.Property(sd => sd.Value).HasColumnName("description");
+            });
+
+            db.OwnsOne(d => d.FIO, sb =>
+            {
+                sb.Property(sd => sd.Value).HasColumnName("fio");
+            });
         });
     }
 }

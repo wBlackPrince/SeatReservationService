@@ -34,6 +34,4 @@ public record Error
 
     public static Error Failure(string? code, string message, string? invalidField = null) =>
         new Error(code ?? "failure", message, ErrorType.FAILURE, invalidField);
-
-    public Failure ToFailure() => this;
 }

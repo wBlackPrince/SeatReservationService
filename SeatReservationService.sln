@@ -14,8 +14,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SeatReservation.Application
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SeatReservation.Contract", "src\SeatReservation.Contract\SeatReservation.Contract.csproj", "{25AF1B39-C82D-4087-A843-9360040D9ECB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SEatReservation.Presenters", "src\SEatReservation.Presenters\SEatReservation.Presenters.csproj", "{88B7D95E-4E52-40C4-89A6-9D92BB7DBC5C}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -46,10 +44,6 @@ Global
 		{25AF1B39-C82D-4087-A843-9360040D9ECB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{25AF1B39-C82D-4087-A843-9360040D9ECB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{25AF1B39-C82D-4087-A843-9360040D9ECB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{88B7D95E-4E52-40C4-89A6-9D92BB7DBC5C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{88B7D95E-4E52-40C4-89A6-9D92BB7DBC5C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{88B7D95E-4E52-40C4-89A6-9D92BB7DBC5C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{88B7D95E-4E52-40C4-89A6-9D92BB7DBC5C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{14566240-C212-45F4-8318-5C148407A8FE} = {E02D884B-1B4B-4E8D-91BD-C035421889E9}
@@ -58,6 +52,5 @@ Global
 		{A4C3B5C2-A851-46C1-9343-5C8FE35A6A67} = {E02D884B-1B4B-4E8D-91BD-C035421889E9}
 		{CF31A059-F602-4CF3-A673-6F65399D5EE9} = {E02D884B-1B4B-4E8D-91BD-C035421889E9}
 		{25AF1B39-C82D-4087-A843-9360040D9ECB} = {E02D884B-1B4B-4E8D-91BD-C035421889E9}
-		{88B7D95E-4E52-40C4-89A6-9D92BB7DBC5C} = {E02D884B-1B4B-4E8D-91BD-C035421889E9}
 	EndGlobalSection
 EndGlobal

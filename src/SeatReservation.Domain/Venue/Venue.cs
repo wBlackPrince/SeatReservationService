@@ -3,8 +3,6 @@ using SeatReservation.Shared;
 
 namespace SeatReservationDomain.Venue;
 
-public record VenueId(Guid Value);
-
 public class Venue
 {
     private List<Seat> _seats = [];
@@ -16,7 +14,7 @@ public class Venue
         
     }
     
-    public Venue(VenueId id, VenueName name,  int maxSeatsCount, IEnumerable<Seat> seats)
+    public Venue(Guid id, VenueName name,  int maxSeatsCount, IEnumerable<Seat> seats)
     {
         Id = id;
         Name = name;
@@ -24,7 +22,7 @@ public class Venue
         _seats = seats.ToList();
     }
     
-    public VenueId Id { get;}
+    public Guid Id { get;}
 
     public VenueName Name { get; private set; } = null!;
     
@@ -81,7 +79,7 @@ public class Venue
         string prefix,
         string name,
         int seatsLimit,
-        VenueId? venueId = null)
+        Guid? venueId = null)
     {
         if (seatsLimit <= 0)
         {
@@ -96,25 +94,9 @@ public class Venue
         {
             return venueNameResult.Error;
         }
-
-        // var venuesSeats = seats.ToList();
-        //
-        // if (venuesSeats.Count < 1)
-        // {
-        //     return Error.Validation(
-        //         "venues.seats", 
-        //         "Слишком мало мест для площадки");
-        // }
-        //
-        // if (venuesSeats.Count >= seatsLimit)
-        // {
-        //     return Error.Conflict(
-        //         "venues.seats.limit", 
-        //         "Слишком большое количество сидений");
-        // }
         
         return new Venue(
-            venueId ?? new VenueId(Guid.NewGuid()), 
+            venueId ?? Guid.NewGuid(), 
             venueNameResult.Value, 
             seatsLimit,
             []);

@@ -3,7 +3,6 @@ using Microsoft.Extensions.Logging;
 using SeatReservationDomain.Reservation;
 using SeatReservationDomain.Venue;
 using SeatReservationService.Application.Seats;
-using EventId = SeatReservationDomain.Event.EventId;
 
 namespace SeatReservation.Infrastructure.Postgres.Repositories;
 
@@ -21,7 +20,7 @@ public class SeatsRepository : ISeatsRepository
     }
 
     public async Task<IReadOnlyList<Seat>> GetByIds(
-        IEnumerable<SeatId> seatIds,
+        IEnumerable<Guid> seatIds,
         CancellationToken cancellationToken)
     {
         return await _dbContext.Seats
@@ -30,8 +29,8 @@ public class SeatsRepository : ISeatsRepository
     }
 
     public async Task<IReadOnlyList<Seat>> GetAvailableSeats(
-        VenueId venueId,  
-        EventId eventId,
+        Guid venueId,  
+        Guid eventId,
         int? rowNumber,
         CancellationToken cancellationToken)
     {

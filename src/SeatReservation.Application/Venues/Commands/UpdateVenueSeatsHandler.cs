@@ -25,7 +25,7 @@ public class UpdateVenueSeatsHandler
         UpdateVenueSeatsRequest request,
         CancellationToken cancellationToken)
     {
-        var venueId = new VenueId(request.VenueId);
+        var venueId = request.VenueId;
         
         var transactionScopeResult = await _transactionManager.BeginTransactionAsync(
             IsolationLevel.ReadCommitted,

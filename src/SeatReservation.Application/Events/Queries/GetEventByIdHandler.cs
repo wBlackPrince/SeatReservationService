@@ -23,17 +23,17 @@ public class GetEventByIdHandler
     {
         var eventDto = await _readDbContext.EventsRead
             .Include(e => e.Details)
-            .Where(e => e.Id == new EventId(query.EventId))
+            .Where(e => e.Id == query.EventId)
             .Select(e => new GetEventDto()
             {
-                Id = e.Id.Value,
-                Capacity = e.Details.Capacity,
-                Description = e.Details.Description,
+                Id = e.Id,
+                Capacity = e.Details.Capacity.Value,
+                Description = e.Details.Description.Value,
                 LastReservationUtc = e.Details.LastReservationUtc,
-                VenueId = e.VenueId.Value,
-                EventDate = e.EventDate,
-                StartDate = e.StartDate,
-                EndDate = e.EndDate,
+                VenueId = e.VenueId,
+                EventDate = e.Dates.EventDate,
+                StartDate = e.Dates.StartDate,
+                EndDate = e.Dates.EndDate,
                 Status = e.Status.ToString(),
                 Type = e.Type.ToString(),
                 Info = e.Info.ToString(),
@@ -44,14 +44,14 @@ public class GetEventByIdHandler
                             new {SeatId = s.Id, EventId = e.Id} equals 
                             new {SeatId = rs.SeatId, EventId = rs.EventId} into reservations
                         from r in reservations.DefaultIfEmpty()
-                        where e.Id == new EventId(query.EventId)
+                        where e.Id == query.EventId
                         orderby s.RowNumber, s.SeatNumber
                         select new ReservedSeatsDto
                         {
-                            Id = s.Id.Value,
+                            Id = s.Id,
                             RowNumber = s.RowNumber,
                             SeatNumber = s.SeatNumber,
-                            VenueId = s.VenueId.Value,
+                            VenueId = s.VenueId,
                             IsAvailable = r == null
                         }).ToList(),
                 TotalSeats = _readDbContext.SeatsRead.Count(s => s.VenueId == e.VenueId),

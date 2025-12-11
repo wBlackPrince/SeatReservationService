@@ -12,15 +12,15 @@ public class VenueConfiguration: IEntityTypeConfiguration<Venue>
         builder.ToTable("venues");
         
         builder.HasKey(v => v.Id).HasName("pk_venues");
-        
-        builder.Property(v => v.Id)
-            .HasConversion(v => v.Value, id => new VenueId(id))
+
+        builder
+            .Property(v => v.Id)
             .HasColumnName("id");
 
         builder.Property(v => v.MaxSeatsCount)
             .HasColumnName("max_seats_count");
 
-        builder.ComplexProperty(v => v.Name, nb =>
+        builder.OwnsOne(v => v.Name, nb =>
         {
             nb.Property(v => v.Prefix)
                 .IsRequired()

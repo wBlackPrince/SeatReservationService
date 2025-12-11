@@ -11,19 +11,24 @@ public class EventDetailsConfiguration: IEntityTypeConfiguration<EventDetails>
         builder.ToTable("event_details");
         
         builder.HasKey(v => v.Id).HasName("pk_event_details");
-        
-        builder.Property(v => v.Id)
-            .HasConversion(v => v.Value, id => new EventDetailsId(id))
+
+        builder
+            .Property(v => v.Id)
             .HasColumnName("id");
 
-        builder.Property(v => v.Capacity)
-            .HasColumnName("capacity");
+        builder.OwnsOne(e => e.Capacity, eb =>
+        {
+            eb
+                .Property(ed => ed.Value)
+                .HasColumnName("capacity");
+        });
         
-        builder.Property(v => v.Description)
-            .HasColumnName("description");
-        
-        builder.Property(v => v.EventId)
-            .HasColumnName("event_id");
+        builder.OwnsOne(e => e.Description, eb =>
+        {
+            eb
+                .Property(ed => ed.Value)
+                .HasColumnName("description");
+        });
         
         builder
             .HasOne<Event>()

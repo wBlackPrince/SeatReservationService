@@ -1,13 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using Npgsql;
-using SeatReservationDomain;
 using SeatReservationDomain.Event;
 using SeatReservationDomain.Reservation;
 using SeatReservationDomain.Users;
 using SeatReservationDomain.Venue;
-using SeatReservationService.Application;
 using SeatReservationService.Application.Database;
 using SeatReservationService.Application.Reservations;
 

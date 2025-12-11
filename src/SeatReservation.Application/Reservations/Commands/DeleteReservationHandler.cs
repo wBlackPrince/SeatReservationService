@@ -21,7 +21,7 @@ public class DeleteReservationHandler
     public async Task<Result<Guid, Error>> Handle(Guid reservationId, CancellationToken cancellationToken)
     {
         var deleteResult = await _reservationsRepository.Delete(
-            new ReservationId(reservationId), 
+            reservationId, 
             cancellationToken);
 
         if (deleteResult.IsFailure)

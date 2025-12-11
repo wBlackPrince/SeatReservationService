@@ -4,12 +4,10 @@ using FluentValidation;
 using Microsoft.Extensions.Logging;
 using SeatReservation.Shared;
 using SeatReservationDomain.Reservation;
-using SeatReservationDomain.Venue;
 using SeatReservationService.Application.Database;
 using SeatReservationService.Application.Events;
 using SeatReservationService.Application.Seats;
 using SeatReservationService.Contract.Reservations;
-using EventId = SeatReservationDomain.Event.EventId;
 
 namespace SeatReservationService.Application.Reservations.Commands;
 
@@ -70,7 +68,7 @@ public class ReserveHandler
         
         // 2. Доступно ли бронирование для мероприятия. Проверить даты. Проверить статус.
 
-        var eventId = new EventId(request.EventId);
+        var eventId = request.EventId;
         var (_, isFailure, @event, error) = await _eventsRepository.GetByIdWithLock(eventId, cancellationToken);
 
         if (isFailure)
@@ -95,7 +93,7 @@ public class ReserveHandler
         
         
         // 3. Проверить что места принадлежат нужной площадке и мероприятию
-        var seatsIds = request.Seats.Select(i => new SeatId(i)).ToList();
+        var seatsIds = request.Seats.ToList();
         var seats = _seatsRepository.GetByIds(seatsIds, cancellationToken).Result;
 
 
@@ -121,7 +119,7 @@ public class ReserveHandler
         
         // создать Reservation с reserved seats
         var reservationResult = Reservation.Create(
-            new EventId(request.EventId), 
+            request.EventId, 
             request.UserId, 
             request.Seats);
 

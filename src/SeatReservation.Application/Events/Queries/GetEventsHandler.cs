@@ -4,7 +4,6 @@ using Dapper;
 using Microsoft.EntityFrameworkCore;
 using SeatReservationDomain.Event;
 using SeatReservationDomain.Reservation;
-using SeatReservationDomain.Venue;
 using SeatReservationService.Application.Database;
 using SeatReservationService.Contract.Events;
 
@@ -26,7 +25,7 @@ public class GetEventsHandler
         if(!string.IsNullOrWhiteSpace(query.Search))
             eventsQuery = eventsQuery
                 .Where(e => EF.Functions.Like(
-                    e.Name.ToLower(),  
+                    e.Name.Value.ToLower(),  
                     $"%{query.Search.ToLower()}%"));
 
         if (!string.IsNullOrWhiteSpace(query.EventType))
@@ -37,13 +36,13 @@ public class GetEventsHandler
         }
         
         if (query.DateFrom is not null)
-            eventsQuery = eventsQuery.Where(e => e.EventDate >= query.DateFrom.Value.ToUniversalTime());
+            eventsQuery = eventsQuery.Where(e => e.Dates.EventDate >= query.DateFrom.Value.ToUniversalTime());
         
         if (query.DateTo is not null)
-            eventsQuery = eventsQuery.Where(e => e.EventDate <= query.DateTo.Value.ToUniversalTime());
+            eventsQuery = eventsQuery.Where(e => e.Dates.EventDate <= query.DateTo.Value.ToUniversalTime());
         
         if (query.VenueId.HasValue)
-            eventsQuery = eventsQuery.Where(e => e.VenueId == new VenueId(query.VenueId.Value));
+            eventsQuery = eventsQuery.Where(e => e.VenueId == query.VenueId.Value);
 
         if (!string.IsNullOrWhiteSpace(query.Status))
         {
@@ -66,10 +65,10 @@ public class GetEventsHandler
         Expression<Func<Event, object>> keySelector = query?.SortBy?.ToLower() switch
         {
             "name" => e => e.Name,
-            "date" => e => e.EventDate,
+            "date" => e => e.Dates.EventDate,
             "status" => e => e.Status,
             "type" => e => e.Type,
-            _ => e => e.EventDate,
+            _ => e => e.Dates.EventDate,
         };
 
 
@@ -83,21 +82,21 @@ public class GetEventsHandler
         var totalCount = await eventsQuery.LongCountAsync();
         
         eventsQuery = eventsQuery
-            .OrderBy(e => e.EventDate)
+            .OrderBy(e => e.Dates.EventDate)
             .Skip((query.PaginationRequest.Page - 1) * query.PaginationRequest.PageSize)
             .Take(query.PaginationRequest.PageSize);
         
         var events = await eventsQuery
             .Select(e => new EventDto(){
-                Id = e.Id.Value,
-                Capacity = e.Details.Capacity,
-                Description = e.Details.Description,
+                Id = e.Id,
+                Capacity = e.Details.Capacity.Value,
+                Description = e.Details.Description.Value,
                 LastReservationUtc = e.Details.LastReservationUtc,
-                VenueId = e.VenueId.Value,
-                Name = e.Name,
-                EventDate = e.EventDate,
-                StartDate = e.StartDate,
-                EndDate = e.EndDate,
+                VenueId = e.VenueId,
+                Name = e.Name.Value,
+                EventDate = e.Dates.EventDate,
+                StartDate = e.Dates.StartDate,
+                EndDate = e.Dates.EndDate,
                 Status = e.Status.ToString(),
                 Type = e.Type.ToString(),
                 Info = e.Info.ToString(),

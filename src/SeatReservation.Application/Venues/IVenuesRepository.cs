@@ -11,7 +11,7 @@ public interface IVenuesRepository
         CancellationToken cancellationToken = default);
     
     Task<Result<Guid, Error>> UpdateVenueName(
-        VenueId venueId, 
+        Guid venueId, 
         VenueName venueName, 
         CancellationToken cancellationToken = default);
 
@@ -21,7 +21,7 @@ public interface IVenuesRepository
         CancellationToken cancellationToken);
 
     Task<Result<Venue, Error>> GetById(
-        VenueId id,
+        Guid id,
         CancellationToken cancellationToken);
 
     Task Update(Venue venue, CancellationToken cancellationToken);
@@ -31,7 +31,7 @@ public interface IVenuesRepository
         CancellationToken cancellationToken);
 
     Task<UnitResult<Error>> DeleteSeatsByVenueId(
-        VenueId venueId,
+        Guid venueId,
         CancellationToken cancellationToken);
 
     Task<UnitResult<Error>> AddSeats(
@@ -39,6 +39,6 @@ public interface IVenuesRepository
         CancellationToken cancellationToken);
 
     Task<Result<Venue, Error>> GetByIdWithSeats(
-        VenueId id,
+        Guid id,
         CancellationToken cancellationToken);
 }

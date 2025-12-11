@@ -6,9 +6,9 @@ namespace SeatReservationService.Application.Events;
 
 public interface IEventsRepository
 {
-    Task<Result<Event, Error>> GetByIdWithLock(EventId eventId, CancellationToken cancellationToken);
+    Task<Result<Event, Error>> GetByIdWithLock(Guid eventId, CancellationToken cancellationToken);
 
-    Task<Result<Event, Error>> GetAvailableForReservation(EventId eventId, CancellationToken cancellationToken);
+    Task<Result<Event, Error>> GetAvailableForReservation(Guid eventId, CancellationToken cancellationToken);
 
     Task<Result<Guid, Error>> Create(Event @event, CancellationToken cancellationToken);
 

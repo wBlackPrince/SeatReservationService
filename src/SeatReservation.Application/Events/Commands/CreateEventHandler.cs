@@ -23,7 +23,7 @@ public class CreateConcertHandler
     public async Task<Result<Guid, Error>> Handle(CreateConcertRequest request, CancellationToken cancellationToken)
     {
         var concert = Event.CreateConcert(
-            new VenueId(request.VenueId),
+            request.VenueId,
             request.Name,
             request.EventDate,
             request.StartDate,
@@ -42,6 +42,6 @@ public class CreateConcertHandler
         
         await _eventsRepository.SaveChangesAsync(cancellationToken);
         
-        return concert.Value.Id.Value;
+        return concert.Value.Id;
     }
 }

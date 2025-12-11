@@ -11,10 +11,10 @@ public interface IReservationsRepository
 
     Task<bool> AnySeatsAlreadyReserved(
         Guid eventId,
-        IEnumerable<SeatId> seatIds,
+        IEnumerable<Guid> seatIds,
         CancellationToken cancellationToken);
 
-    Task<Result<Guid, Error>> Delete(ReservationId reservationId, CancellationToken cancellationToken);
+    Task<Result<Guid, Error>> Delete(Guid reservationId, CancellationToken cancellationToken);
 
     Task<int> GetReservedSeatsCount(Guid eventId, CancellationToken cancellationToken);
 

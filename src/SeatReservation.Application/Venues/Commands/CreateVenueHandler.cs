@@ -55,6 +55,6 @@ public class CreateVenueHandler
         await _venuesRepository.Add(venue.Value, cancellationToken);
         
         
-        return venue.Value.Id.Value;
+        return venue.Value.Id;
     }
 }

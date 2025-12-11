@@ -4,8 +4,6 @@ using SeatReservation.Shared;
 namespace SeatReservationDomain.Venue;
 
 
-public record SeatId(Guid Value);
-
 public class Seat
 {
     // EF Core
@@ -13,7 +11,7 @@ public class Seat
     {
         
     }
-    private Seat(SeatId id, Venue venue, int rowNumber, int seatNumber)
+    private Seat(Guid id, Venue venue, int rowNumber, int seatNumber)
     {
         Id = id;
         Venue = venue;
@@ -21,7 +19,7 @@ public class Seat
         SeatNumber = seatNumber;
     }
     
-    private Seat(SeatId id, VenueId venueId, int rowNumber, int seatNumber)
+    private Seat(Guid id, Guid venueId, int rowNumber, int seatNumber)
     {
         Id = id;
         VenueId = venueId;
@@ -29,9 +27,9 @@ public class Seat
         SeatNumber = seatNumber;
     }
     
-    public SeatId Id { get; set; }
+    public Guid Id { get; set; }
 
-    public VenueId VenueId { get; private set; } = null!;
+    public Guid VenueId { get; private set; }
 
     public Venue Venue { get; private set; } = null!;
     
@@ -45,15 +43,15 @@ public class Seat
         {
             return Error.Validation("seats.rowNumber", "Номера места не могут быть отрицательными!");
         }
-        return new Seat(new SeatId(Guid.NewGuid()), venue, rowNumber, seatNumber);
+        return new Seat(Guid.NewGuid(), venue, rowNumber, seatNumber);
     }
     
-    public static Result<Seat, Error> Create(VenueId venueId, int rowNumber, int seatNumber)
+    public static Result<Seat, Error> Create(Guid venueId, int rowNumber, int seatNumber)
     {
         if (rowNumber < 0 || seatNumber < 0)
         {
             return Error.Validation("seats.rowNumber", "Номера места не могут быть отрицательными!");
         }
-        return new Seat(new SeatId(Guid.NewGuid()), venueId, rowNumber, seatNumber);
+        return new Seat(Guid.NewGuid(), venueId, rowNumber, seatNumber);
     }
 }

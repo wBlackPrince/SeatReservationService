@@ -3,9 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using SeatReservation.Shared;
 using SeatReservationDomain.Reservation;
-using SeatReservationDomain.Venue;
 using SeatReservationService.Application.Reservations;
-using EventId = SeatReservationDomain.Event.EventId;
 
 namespace SeatReservation.Infrastructure.Postgres.Repositories;
 
@@ -31,7 +29,7 @@ public class ReservationsRepository : IReservationsRepository
             
             await _dbContext.SaveChangesAsync(cancellationToken);
             
-            return reservation.Id.Value;
+            return reservation.Id;
         }
         catch (Exception ex)
         {
@@ -42,7 +40,7 @@ public class ReservationsRepository : IReservationsRepository
 
     public async Task<bool> AnySeatsAlreadyReserved(
         Guid eventId,
-        IEnumerable<SeatId> seatIds,
+        IEnumerable<Guid> seatIds,
         CancellationToken cancellationToken)
     {
         var hasReservedSeats = _dbContext.Reservations
@@ -53,7 +51,7 @@ public class ReservationsRepository : IReservationsRepository
         return hasReservedSeats.Result;
     }
 
-    public async Task<Result<Guid, Error>> Delete(ReservationId reservationId, CancellationToken cancellationToken)
+    public async Task<Result<Guid, Error>> Delete(Guid reservationId, CancellationToken cancellationToken)
     {
         var reservation = await _dbContext.Reservations.FirstOrDefaultAsync(
             r => r.Id == reservationId, 
@@ -66,7 +64,7 @@ public class ReservationsRepository : IReservationsRepository
 
         _dbContext.Reservations.Remove(reservation);
         
-        return reservation.Id.Value;
+        return reservation.Id;
     }
 
     public async Task<int> GetReservedSeatsCount(Guid eventId, CancellationToken cancellationToken)

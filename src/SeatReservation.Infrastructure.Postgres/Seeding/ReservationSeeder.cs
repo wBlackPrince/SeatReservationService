@@ -106,16 +106,9 @@ public class ReservationSeeder : ISeeder
             var firstName = firstNames[_random.Next(firstNames.Length)];
             var lastName = lastNames[_random.Next(lastNames.Length)];
 
-            users.Add(new User
-            {
-                Id = Guid.NewGuid(),
-                Details = new Details
-                {
-                    FIO = $"{firstName} {lastName}",
-                    Description = $"Пользователь {firstName} {lastName}",
-                    Socials = GenerateRandomSocials()
-                }
-            });
+            users.Add(new User (Details.Create(
+                    $"{firstName} {lastName}",
+                    $"Пользователь {firstName} {lastName}").Value));
 
             if (users.Count < batchSize)
                 continue;
@@ -312,7 +305,7 @@ public class ReservationSeeder : ISeeder
             .Select(g => new
             {
                 VenueId = g.Key,
-                SeatIds = g.Select(s => s.Id.Value).ToList()
+                SeatIds = g.Select(s => s.Id).ToList()
             })
             .ToListAsync();
 
@@ -374,11 +367,10 @@ public class ReservationSeeder : ISeeder
         for (var i = 0; i < count; i++)
         {
             var network = socialNetworks[_random.Next(socialNetworks.Length)];
-            socials.Add(new SocialNetwork
-            {
-                Name = network,
-                Link = $"https://{network.ToLower()}.com/user{_random.Next(1000, 9999)}"
-            });
+            var link = $"https://{network.ToLower()}.com/user{_random.Next(1000, 9999)}";
+
+
+            socials.Add(SocialNetwork.Create(network, link).Value);
         }
 
         return socials;

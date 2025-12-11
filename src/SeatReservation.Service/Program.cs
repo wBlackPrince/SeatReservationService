@@ -1,14 +1,8 @@
 using FluentValidation;
-using Microsoft.EntityFrameworkCore;
 using SeatReservation.Infrastructure.Postgres;
 using SeatReservation.Infrastructure.Postgres.Database;
 using SeatReservation.Infrastructure.Postgres.Repositories;
 using SeatReservation.Infrastructure.Postgres.Seeding;
-using SeatReservationDomain;
-using SeatReservationDomain.Event;
-using SeatReservationDomain.Venue;
-using SeatReservationService;
-using SeatReservationService.Application;
 using SeatReservationService.Application.Database;
 using SeatReservationService.Application.Events;
 using SeatReservationService.Application.Events.Commands;
@@ -18,9 +12,7 @@ using SeatReservationService.Application.Reservations.Commands;
 using SeatReservationService.Application.Seats;
 using SeatReservationService.Application.Venues;
 using SeatReservationService.Application.Venues.Commands;
-using SeatReservationService.Contract;
 using SeatReservationService.Contract.Reservations;
-using EventId = SeatReservationDomain.Event.EventId;
 
 var builder = WebApplication.CreateBuilder(args);
 

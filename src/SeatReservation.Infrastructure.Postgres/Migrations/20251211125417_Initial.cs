@@ -43,9 +43,9 @@ namespace SeatReservation.Infrastructure.Postgres.Migrations
                 columns: table => new
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
-                    max_seats_count = table.Column<int>(type: "integer", nullable: false),
+                    prefix = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
                     name = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
-                    prefix = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false)
+                    max_seats_count = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -56,8 +56,8 @@ namespace SeatReservation.Infrastructure.Postgres.Migrations
                 name: "events",
                 columns: table => new
                 {
-                    id = table.Column<Guid>(type: "uuid", nullable: false),
-                    venue_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    event_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    VenueId = table.Column<Guid>(type: "uuid", nullable: false),
                     name = table.Column<string>(type: "text", nullable: false),
                     event_date = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     start_date = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
@@ -68,10 +68,10 @@ namespace SeatReservation.Infrastructure.Postgres.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("pk_events", x => x.id);
+                    table.PrimaryKey("pk_events", x => x.event_id);
                     table.ForeignKey(
-                        name: "FK_events_venues_venue_id",
-                        column: x => x.venue_id,
+                        name: "FK_events_venues_VenueId",
+                        column: x => x.VenueId,
                         principalTable: "venues",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
@@ -102,7 +102,7 @@ namespace SeatReservation.Infrastructure.Postgres.Migrations
                 columns: table => new
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
-                    event_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    EventId = table.Column<Guid>(type: "uuid", nullable: false),
                     capacity = table.Column<int>(type: "integer", nullable: false),
                     description = table.Column<string>(type: "text", nullable: false),
                     xmin = table.Column<uint>(type: "xid", rowVersion: true, nullable: false),
@@ -112,10 +112,10 @@ namespace SeatReservation.Infrastructure.Postgres.Migrations
                 {
                     table.PrimaryKey("pk_event_details", x => x.id);
                     table.ForeignKey(
-                        name: "FK_event_details_events_event_id",
-                        column: x => x.event_id,
+                        name: "FK_event_details_events_EventId",
+                        column: x => x.EventId,
                         principalTable: "events",
-                        principalColumn: "id",
+                        principalColumn: "event_id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -123,7 +123,7 @@ namespace SeatReservation.Infrastructure.Postgres.Migrations
                 name: "reservation_seats",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    id = table.Column<Guid>(type: "uuid", nullable: false),
                     reservation_id = table.Column<Guid>(type: "uuid", nullable: false),
                     seat_id = table.Column<Guid>(type: "uuid", nullable: false),
                     event_id = table.Column<Guid>(type: "uuid", nullable: false),
@@ -131,7 +131,7 @@ namespace SeatReservation.Infrastructure.Postgres.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("pk_reservation_seats", x => x.Id);
+                    table.PrimaryKey("pk_reservation_seats", x => x.id);
                     table.ForeignKey(
                         name: "FK_reservation_seats_reservations_reservation_id",
                         column: x => x.reservation_id,
@@ -147,15 +147,15 @@ namespace SeatReservation.Infrastructure.Postgres.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_event_details_event_id",
+                name: "IX_event_details_EventId",
                 table: "event_details",
-                column: "event_id",
+                column: "EventId",
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_events_venue_id",
+                name: "IX_events_VenueId",
                 table: "events",
-                column: "venue_id");
+                column: "VenueId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_reservation_seats_event_id_seat_id",

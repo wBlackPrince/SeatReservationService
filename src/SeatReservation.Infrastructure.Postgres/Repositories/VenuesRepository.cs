@@ -30,7 +30,7 @@ public class VenuesRepository: IVenuesRepository
             await _dbContext.Venues.AddAsync(venue, cancellationToken);
             await _dbContext.SaveChangesAsync(cancellationToken);
         
-            return venue.Id.Value;
+            return venue.Id;
         }
         catch (Exception e)
         {
@@ -39,16 +39,16 @@ public class VenuesRepository: IVenuesRepository
     }
 
     public async Task<Result<Guid, Error>> UpdateVenueName(
-        VenueId venueId, 
+        Guid venueId, 
         VenueName venueName, 
         CancellationToken cancellationToken)
     {
         _dbContext.Database.ExecuteSqlAsync(
-            $"UPDATE venues SET Name = {venueName.Name} WHERE Id = {venueId.Value}", cancellationToken);
+            $"UPDATE venues SET Name = {venueName.Name} WHERE Id = {venueId}", cancellationToken);
         _dbContext.Database.ExecuteSqlRawAsync(
             "UPDATE venues SET Name = @Name WHERE Id = @Value", 
             new NpgsqlParameter("@Name", venueName.Name),
-            new NpgsqlParameter("@Id", venueId.Value));
+            new NpgsqlParameter("@Id", venueId));
         
         
         // await _dbContext.Venues
@@ -59,7 +59,7 @@ public class VenuesRepository: IVenuesRepository
         //             .SetProperty(v => v.Name.Name, venueName.Name)
         //             .SetProperty(v =>v.MaxSeatsCount, 100), cancellationToken);
 
-        return venueId.Value;
+        return venueId;
     }
     
     public async Task<UnitResult<Error>> UpdateVenueNameByPrefix(
@@ -88,7 +88,7 @@ public class VenuesRepository: IVenuesRepository
     
     
     public async Task<Result<Venue, Error>> GetById(
-        VenueId id,
+        Guid id,
         CancellationToken cancellationToken)
     {
         var venue = await _dbContext.Venues
@@ -104,7 +104,7 @@ public class VenuesRepository: IVenuesRepository
     }
     
     public async Task<Result<Venue, Error>> GetByIdWithSeats(
-        VenueId id,
+        Guid id,
         CancellationToken cancellationToken)
     {
         var venue = await _dbContext.Venues
@@ -135,7 +135,7 @@ public class VenuesRepository: IVenuesRepository
     
     
     public async Task<UnitResult<Error>> DeleteSeatsByVenueId(
-        VenueId venueId, 
+        Guid venueId, 
         CancellationToken cancellationToken)
     {
         await _dbContext.Seats

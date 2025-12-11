@@ -6,12 +6,12 @@ namespace SeatReservationService.Application.Seats;
 public interface ISeatsRepository
 {
     Task<IReadOnlyList<Seat>> GetByIds(
-        IEnumerable<SeatId> seatIds,
+        IEnumerable<Guid> seatIds,
         CancellationToken cancellationToken);
 
     Task<IReadOnlyList<Seat>> GetAvailableSeats(
-        VenueId venueId,
-        EventId eventId,
+        Guid venueId,
+        Guid eventId,
         int? rowNumber,
         CancellationToken cancellationToken);
 }

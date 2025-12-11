@@ -3,6 +3,7 @@ using CSharpFunctionalExtensions;
 using SeatReservation.Shared;
 using SeatReservationDomain.Event;
 using SeatReservationDomain.Reservation;
+using SeatReservationDomain.Users;
 using SeatReservationDomain.Venue;
 using SeatReservationService.Application.Database;
 using SeatReservationService.Application.Events;
@@ -59,11 +60,8 @@ public class ReserveAdjacentSeatsHandler
         
         using var transaction = transactionResult.Value;
         
-        EventId eventId = new EventId(request.EventId);
-        VenueId venueId = new VenueId(request.VenueId);
-        
         var (_, isFailure, @event, error) = await _eventsRepository.GetByIdWithLock(
-            eventId, 
+            request.EventId, 
             cancellationToken);
 
         if (isFailure)
@@ -73,8 +71,8 @@ public class ReserveAdjacentSeatsHandler
         }
 
         var availableSeats = await _seatsRepository.GetAvailableSeats(
-            venueId,
-            eventId,
+            request.VenueId,
+            request.EventId,
             request.PreferredRowNumber,
             cancellationToken
         );
@@ -109,9 +107,9 @@ public class ReserveAdjacentSeatsHandler
         var seatsIds = selectedSeats.Select(s => s.Id).ToList();
 
         var reservationResult = Reservation.Create(
-            eventId,
+            request.EventId,
             request.UserId,
-            seatsIds.Select(si => si.Value).ToList());
+            seatsIds.ToList());
 
         if (reservationResult.IsFailure)
         {
